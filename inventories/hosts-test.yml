@@ -1,15 +1,18 @@
 conodes:
   hosts:
-    evot0:
-      ansible_host: 10.95.96.145
-      ansible_port: 22
-      ansible_user: ubuntu
     evot1:
+      # itsevoting0004
       ansible_host: 10.95.96.146
       ansible_port: 22
       ansible_user: ubuntu
     evot2:
+      # itsevoting0005
       ansible_host: 10.95.96.147
+      ansible_port: 22
+      ansible_user: ubuntu
+    evot3:
+      # itsevoting0006
+      ansible_host: 10.95.96.148
       ansible_port: 22
       ansible_user: ubuntu
   vars:
@@ -20,8 +23,9 @@ conodes:
 
 frontents:
   hosts:
-    evot3:
-      ansible_host: 10.95.96.148
+    evot0:
+      # itsevoting0003
+      ansible_host: 10.95.96.145
       ansible_port: 22
       ansible_user: ubuntu
   vars:
