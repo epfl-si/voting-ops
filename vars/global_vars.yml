@@ -1,0 +1,7 @@
+runenv: "{{ RUNENV | default(inventory_mode) }}"
+keybase_path: "/keybase/team/epfl_evoting/{{ runenv }}"
+secrets_file_path: "{{ keybase_path }}/secrets.yml }}"
+_secrets: "{{ lookup('pipe', 'keybase fs read ' secrets_file) | from_yaml }}"
+
+
+install_dir: "{{ INSTALL_DIR | default('/home/ubuntu') }}"

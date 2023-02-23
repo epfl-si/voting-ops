@@ -1,0 +1,36 @@
+---
+- include_vars: memcoin_vars.yml
+  tags: always
+
+- name: install node
+  tags:
+    - memcoin
+    - memcoin.install
+  include_tasks:
+    file: install.yml
+    apply:
+      tags:
+        - memcoin
+        - memcoin.install
+
+- name: configure memcoin
+  tags:
+    - memcoin
+    - memcoin.config
+  include_tasks:
+    file: config.yml
+    apply:
+      tags:
+        - memcoin
+        - memcoin.config
+
+- name: run memcoin
+  tags:
+    - memcoin
+    - memcoin.run
+  include_tasks:
+    file: run.yml
+    apply:
+      tags:
+        - memcoin
+        - memcoin.run

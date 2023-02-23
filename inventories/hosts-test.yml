@@ -1,0 +1,30 @@
+conodes:
+  hosts:
+    evot0:
+      ansible_host: 10.95.96.145
+      ansible_port: 22
+      ansible_user: ubuntu
+    evot1:
+      ansible_host: 10.95.96.146
+      ansible_port: 22
+      ansible_user: ubuntu
+    evot2:
+      ansible_host: 10.95.96.147
+      ansible_port: 22
+      ansible_user: ubuntu
+  vars:
+    INSTALL_DIR: /home/ubuntu
+    MEMCOIN_VERSION: v0_4_5-alpha
+    # RUNENV: test
+    # SECRETS_FILE: secrets.yml
+
+frontents:
+  hosts:
+    evot3:
+      ansible_host: 10.95.96.148
+      ansible_port: 22
+      ansible_user: ubuntu
+  vars:
+    INSTALL_DIR: /home/ubuntu
+    # RUNENV: test
+    # SECRETS_FILE: secrets.yml

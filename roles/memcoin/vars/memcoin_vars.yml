@@ -1,0 +1,29 @@
+dela_bin_dir: "{{ install_dir }}/bin"
+dela_data_dir: "{{ install_dir }}/data"
+dela_archive: "{{ install_dir }}/versions"
+memcoin_bin_version: "{{ MEMCOIN_VERSION | default('v0_4_5-alpha') }}"
+memcoin_bin_path: "{{ dela_bin_dir }}/memcoin"
+
+
+# #!/bin/bash
+# dela_bin="{{ dela_bin_dir }}/memcoin-linux-amd64-{{ dela_bin_version }}"
+
+# # internal socket for the delanode for inter-node communication (gRPC, this is the destination for the public reverse proxy)
+# dela_listen="//0.0.0.0:{{ dela_listen_port }}"
+
+# dela_data="{{ dela_data_dir }}"
+
+# # listen address for 
+# prometheus_addr="0.0.0.0:{{ dela_metrics_port }}9100"
+
+# # http proxy for the node (serving the rest api)
+# proxy_addr="127.0.0.1:4000"
+
+# # The address that is published so the other nodes can access this one
+# # Once the proxy is configured this has to change port
+# dela_public="//{{ inventory_hostname }}:{{ dela_public_port }}"
+
+# # The public key allowing the backend to communicate to the API 
+# dela_proxy_pk="adbacd10fdb9822c71025d6d00092b8a4abb5ebcb673d28d863f7c7c5adaddf3"
+
+

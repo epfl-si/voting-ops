@@ -1,0 +1,5 @@
+- name: Setup memcoin node
+  hosts: conodes
+  gather_facts: no
+  roles:
+    - name: roles/memcoin
