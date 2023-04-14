@@ -1,13 +1,13 @@
 #!/bin/bash
-dela_bin="{{ dela_bin_dir }}/memcoin-linux-amd64-{{ dela_bin_version }}"
+dela_bin="{{ memcoin_bin_path }}"
 
 # internal socket for the delanode for inter-node communication (gRPC, this is the destination for the public reverse proxy)
 dela_listen="//0.0.0.0:{{ dela_listen_port }}"
 
-dela_data="{{ delat_data_dir }}"
+dela_data="{{ dela_data_dir }}"
 
 # listen address for 
-prometheus_addr="0.0.0.0:9100" 
+prometheus_addr="0.0.0.0:9100"
 
 # http proxy for the node (serving the rest api)
 proxy_addr="127.0.0.1:4000"

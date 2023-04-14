@@ -1,7 +1,12 @@
-runenv: "{{ RUNENV | default(inventory_mode) }}"
-keybase_path: "/keybase/team/epfl_evoting/{{ runenv }}"
-secrets_file_path: "{{ keybase_path }}/secrets.yml }}"
-_secrets: "{{ lookup('pipe', 'keybase fs read ' secrets_file) | from_yaml }}"
+RUNENV: test
 
+DELA_VERSION_DOT: v0.4.5-alpha
+DELA_VERSION: v0_4_5-alpha
+DELA_GITHUB: "https://github.com/dedis/d-voting/releases/download/"
 
-install_dir: "{{ INSTALL_DIR | default('/home/ubuntu') }}"
+SECRETS_FILE: secrets.yml
+keybase_path: "/keybase/team/epfl_evoting/{{ RUNENV }}"
+secrets_file_path: "{{ keybase_path }}/{{ SECRETS_FILE }} }}"
+_secrets: "{{ lookup('pipe', 'keybase fs read ' secrets_file_path) | from_yaml }}"
+
+INSTALL_DIR: /home/ubuntu

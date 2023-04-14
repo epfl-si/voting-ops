@@ -1,0 +1,25 @@
+---
+- name: Last web-frontend tar.gz version exists ?
+  ansible.builtin.shell:
+    cmd: "test -e web-frontend-{{ DELA_VERSION }}.tar.gz && echo 'It exists'"
+  failed_when: false
+  changed_when: false
+  register: _web_frontend_exist
+
+- name: Download last web-frontend tar.gz if not present
+  ansible.builtin.get_url:
+    url: "{{ DELA_GITHUB }}{{ DELA_VERSION_DOT }}/web-frontend-{{ DELA_VERSION }}.tar.gz"
+    dest: "{{ INSTALL_DIR }}/web-frontend-{{ DELA_VERSION }}.tar.gz"
+    mode: '0755'
+  tags:
+    - download_web_frontend
+  when: _web_frontend_exist.stdout.find('It exists') == -1
+
+- name: Unzip last web-frontend tar.gz version -> create build directory"  # tar xvfz web-frontend-{{ DELA_VERSION }}.tar.gz
+  ansible.builtin.unarchive:
+    src: "web-frontend-{{ DELA_VERSION }}.tar.gz"
+    dest: "{{ INSTALL_DIR }}"
+    remote_src: yes
+  tags:
+    - unzip_web_frontend
+  when: _web_frontend_exist.stdout.find('It exists') == -1

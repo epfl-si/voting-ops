@@ -1,34 +1,50 @@
 conodes:
   hosts:
-    evot1:
-      # itsevoting0004
-      ansible_host: 10.95.96.146
+    itsevoting0009.xaas.epfl.ch:
+      ansible_host: 10.95.96.166
       ansible_port: 22
       ansible_user: ubuntu
-    evot2:
-      # itsevoting0005
-      ansible_host: 10.95.96.147
-      ansible_port: 22
-      ansible_user: ubuntu
-    evot3:
-      # itsevoting0006
-      ansible_host: 10.95.96.148
-      ansible_port: 22
-      ansible_user: ubuntu
-  vars:
-    INSTALL_DIR: /home/ubuntu
-    MEMCOIN_VERSION: v0_4_5-alpha
-    # RUNENV: test
-    # SECRETS_FILE: secrets.yml
 
-frontents:
+portal:
   hosts:
-    evot0:
-      # itsevoting0003
-      ansible_host: 10.95.96.145
+    itsevoting0008.xaas.epfl.ch:
+      ansible_host: 10.95.96.167
       ansible_port: 22
       ansible_user: ubuntu
-  vars:
-    INSTALL_DIR: /home/ubuntu
-    # RUNENV: test
-    # SECRETS_FILE: secrets.yml
+
+
+
+#conodes:
+#  hosts:
+#    evot0:
+#      # itsevoting0003
+#      ansible_host: 10.95.96.145
+#      ansible_port: 22
+#      ansible_user: ubuntu
+#    evot1:
+#      # itsevoting0004
+#      ansible_host: 10.95.96.146
+#      ansible_port: 22
+#      ansible_user: ubuntu
+#    evot2:
+#      # itsevoting0005
+#      ansible_host: 10.95.96.147
+#      ansible_port: 22
+#      ansible_user: ubuntu
+#  vars:
+#    INSTALL_DIR: /home/ubuntu
+#    MEMCOIN_VERSION: v0_4_5-alpha
+#    # RUNENV: test
+#    # SECRETS_FILE: secrets.yml
+#
+#frontend:
+#  hosts:
+#    evot3:
+#      # itsevoting0006
+#      ansible_host: 10.95.96.148
+#      ansible_port: 22
+#      ansible_user: ubuntu
+#  vars:
+#    INSTALL_DIR: /home/ubuntu
+#    # RUNENV: test
+#    # SECRETS_FILE: secrets.yml

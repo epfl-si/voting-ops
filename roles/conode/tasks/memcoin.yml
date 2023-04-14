@@ -1,0 +1,55 @@
+---
+
+- name: last memcoin version exists ?
+  ansible.builtin.shell:
+    cmd: "test -e memcoin-linux-amd64-{{ DELA_VERSION }} && echo 'It exists'"
+  failed_when: false
+  changed_when: false
+  register: _memcoin_exist
+
+
+- name: Download last memcoin version if not already done
+  get_url:
+    url: "{{ DELA_GITHUB }}{{ DELA_VERSION_DOT }}/memcoin-linux-amd64-{{ DELA_VERSION }}"
+    dest: "{{ INSTALL_DIR }}/memcoin-linux-amd64-{{ DELA_VERSION }}"
+    mode: 'u=rwx,g=rx'
+    owner: ubuntu
+    group: ubuntu
+  tags:
+    - download_memcoin
+  when: _memcoin_exist.stdout.find('It exists') == -1
+
+
+- name: Put memcoin in versions directory
+  copy:
+    src: "memcoin-linux-amd64-{{ DELA_VERSION }}"
+    dest: "{{ dela_archive }}/memcoin-linux-amd64-{{ DELA_VERSION }}"
+    remote_src: yes
+    mode: 'u=rwx,g=rx'
+    owner: ubuntu
+    group: ubuntu
+  tags:
+    - copy_memcoin_in_versions
+  when: _memcoin_exist.stdout.find('It exists') == -1
+
+
+- name: Remove previous symbolic link
+  file:
+    path: "{{ memcoin_bin_path }}"
+    state: absent
+  tags:
+    - remove_symlink_memcoin
+  when: _memcoin_exist.stdout.find('It exists') == -1
+
+
+- name: Create symbolic link to latest memcoin in bin directory
+  file:
+    src: "{{ dela_archive }}/memcoin-linux-amd64-{{ DELA_VERSION }}"
+    dest: "{{ memcoin_bin_path }}"
+    mode: 'u=rwx,g=rx'
+    owner: ubuntu
+    group: ubuntu
+    state: link
+  tags:
+    - create_symlink_memcoin
+  when: _memcoin_exist.stdout.find('It exists') == -1

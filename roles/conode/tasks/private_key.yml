@@ -1,0 +1,8 @@
+---
+- name: private.key template
+  ansible.builtin.template:
+    src: ../templates/private.key
+    dest: /home/ubuntu/private.key
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'

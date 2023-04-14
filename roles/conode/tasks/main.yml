@@ -1,0 +1,38 @@
+---
+- include_vars: conode_vars.yml
+  tags: always
+
+
+- name: Ensure bin, versions and data directories
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0755'
+    owner: "{{ ansible_user }}"
+  with_items:
+    - "{{ dela_bin_dir }}"
+    - "{{ dela_data_dir }}"
+    - "{{ dela_archive }}"
+  tags:
+    - ensure_directories
+
+
+- name: Install memcoin
+  import_tasks:
+    file: memcoin.yml
+  tags:
+    - memcoin
+
+
+- name: Create private_key file
+  import_tasks:
+    file: private_key.yml
+  tags:
+    - create_private_key
+
+
+- name: Create start_dvoting.sh exe file
+  import_tasks:
+    file: dvoting.yml
+  tags:
+    - start_dvoting

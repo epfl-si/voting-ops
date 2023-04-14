@@ -1,0 +1,17 @@
+---
+- name: start_dvoting template
+  ansible.builtin.template:
+    src: ../templates/start_dvoting.sh
+    dest: start_dvoting.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+
+- name: Changing "start_dvoting.sh" as executable
+  file: dest=start_dvoting.sh mode=a+x
+
+
+- name: Execute start_dvoting.sh
+  command: sh start_dvoting.sh
+  changed_when: false

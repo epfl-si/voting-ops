@@ -1,0 +1,52 @@
+---
+- include_vars: portal_vars.yml
+  tags: always
+
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    force_apt_get: yes
+  become: yes
+
+
+- name: last node tar.xz version present ?
+  ansible.builtin.shell:
+    cmd: test -e node-{{ NODE_VERSION }}-linux-x64.tar.xz && echo 'It exists'
+  failed_when: false
+  changed_when: false
+  tags:
+    - check_nodejs
+  register: _nodejs_exist
+
+- name: Download last linux node tar.xz version
+  ansible.builtin.get_url:
+    url: "https://nodejs.org/dist/{{ NODE_VERSION }}/node-{{ NODE_VERSION }}-linux-x64.tar.xz"
+    dest: "{{ INSTALL_DIR }}/node-{{ NODE_VERSION }}-x64.tar.gz"
+    mode: '0755'
+  tags:
+    - download_nodejs
+  when: _nodejs_exist.stdout.find('It exists') == -1
+
+- name: Unzip last node tar.gz version # tar -xvf node-{{ NODE_VERSION }}-linux-x64.tar.gz
+  ansible.builtin.unarchive:
+    src: "node-{{ NODE_VERSION }}-x64.tar.gz"
+    dest: "{{ INSTALL_DIR }}"
+    remote_src: yes
+  tags:
+    - unzip_nodejs
+  when: _nodejs_exist.stdout.find('It exists') == -1
+
+
+- name: Install web backend
+  import_tasks:
+    file: web_backend.yml
+  tags:
+    - install_web_backend
+
+- name: Install web frontend
+  import_tasks:
+    file: web_frontend.yml
+  tags:
+    - install_web_frontend

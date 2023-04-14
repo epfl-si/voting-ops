@@ -1,0 +1,8 @@
+dela_bin_dir: "{{ INSTALL_DIR }}/bin"
+dela_data_dir: "{{ INSTALL_DIR }}/data"
+dela_archive: "{{ INSTALL_DIR }}/versions"
+
+dela_listen_port: "2000"
+dela_public_port: "2000"
+
+memcoin_bin_path: "{{ dela_bin_dir }}/memcoin"
