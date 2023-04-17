@@ -1,0 +1,14 @@
+[Unit]
+Description=Run nginx server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=sudo systemctl restart nginx
+User=ubuntu
+Group=ubuntu
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

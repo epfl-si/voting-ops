@@ -1,0 +1,15 @@
+[Unit]
+Description=Run nginx server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ubuntu
+ExecStart=sh start_dvoting.sh
+User=ubuntu
+Group=ubuntu
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

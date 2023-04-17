@@ -1,0 +1,5 @@
+---
+- name: restart dvoting
+  service:
+    name: dvoting
+    state: restarted

@@ -1,0 +1,13 @@
+---
+- name: restart portal
+  service:
+    name: voting_portal
+    state: restarted
+
+
+- name: restart nginx
+  service:
+    name: voting_nginx
+    state: restarted
+
+

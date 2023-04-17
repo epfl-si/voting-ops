@@ -1,7 +1,7 @@
 ---
 - name: start_dvoting template
   ansible.builtin.template:
-    src: ../templates/start_dvoting.sh
+    src: start_dvoting.sh
     dest: start_dvoting.sh
     owner: ubuntu
     group: ubuntu
@@ -12,6 +12,31 @@
   file: dest=start_dvoting.sh mode=a+x
 
 
-- name: Execute start_dvoting.sh
-  command: sh start_dvoting.sh
-  changed_when: false
+- name: Move dvoting.service template in /etc/systemd/system
+  ansible.builtin.template:
+    src: dvoting.service
+    dest: /etc/systemd/system/dvoting.service
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+#    - reload systemctl
+    - restart dvoting
+  become: true
+  tags:
+    - install_dvoting_service
+
+
+- name: Run dvoting
+  service:
+    name: dvoting
+    enabled: yes
+    state: started
+  become: true
+  tags:
+    - run_dvoting_service
+
+
+#- name: Execute start_dvoting.sh
+#  command: sh start_dvoting.sh
+#  changed_when: false

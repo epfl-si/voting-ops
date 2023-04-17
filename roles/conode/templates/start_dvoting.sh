@@ -17,7 +17,7 @@ proxy_addr="127.0.0.1:4000"
 dela_public="//{{ inventory_hostname }}:{{ dela_public_port }}"
 
 # The public key allowing the backend to communicate to the API 
-dela_proxy_pk="adbacd10fdb9822c71025d6d00092b8a4abb5ebcb673d28d863f7c7c5adaddf3"
+dela_proxy_pk="{{ _secrets['PRIVATE_KEY'] }}"
 
 
 

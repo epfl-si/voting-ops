@@ -5,8 +5,6 @@ DELA_VERSION: v0_4_5-alpha
 DELA_GITHUB: "https://github.com/dedis/d-voting/releases/download/"
 
 SECRETS_FILE: secrets.yml
-keybase_path: "/keybase/team/epfl_evoting/{{ RUNENV }}"
-secrets_file_path: "{{ keybase_path }}/{{ SECRETS_FILE }} }}"
-_secrets: "{{ lookup('pipe', 'keybase fs read ' secrets_file_path) | from_yaml }}"
+_secrets: "{{ lookup('file', '{{ keybase_path }}/{{ RUNENV }}/{{ SECRETS_FILE }}') | from_yaml }}"
 
 INSTALL_DIR: /home/ubuntu

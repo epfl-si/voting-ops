@@ -38,7 +38,7 @@ mode=ansible-playbook
 playbook_flags="-e @vars/global_vars.yml"
 ansible_flags="-e @vars/global_vars.yml"
 inventory_mode="test"
-keybase_path="/keybase/team/epfl_esign/evoting" # temporary
+keybase_path="/keybase/team/epfl_evoting"
 
 declare -a ansible_args
 while [ "$#" -gt 0 ]; do
