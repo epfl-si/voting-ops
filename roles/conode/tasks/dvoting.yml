@@ -20,7 +20,7 @@
     group: root
     mode: '0755'
   notify:
-#    - reload systemctl
+    - reload systemctl
     - restart dvoting
   become: true
   tags:
@@ -33,6 +33,7 @@
     enabled: yes
     state: started
   become: true
+  changed_when: false
   tags:
     - run_dvoting_service
 

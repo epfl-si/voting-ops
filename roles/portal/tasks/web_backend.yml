@@ -49,6 +49,7 @@
   shell: |
     NODE_PATH=web-backend-{{ DELA_VERSION }}/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node -e 'require("./web-backend-{{ DELA_VERSION }}/dbUtils").addAdmin("data/dvoting-users", 121769)'
     NODE_PATH=web-backend-{{ DELA_VERSION }}/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node -e 'require("./web-backend-{{ DELA_VERSION }}/dbUtils").addAdmin("data/dvoting-users", 128871)'
+  changed_when: false
 
 #- name: Add admins
 #  shell: |

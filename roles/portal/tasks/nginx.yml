@@ -1,16 +1,24 @@
 ---
 - name: Install nginx
-  ansible.builtin.apt:
+  apt:
     name: nginx
     state: present
     force_apt_get: yes
   become: yes
 
 
-- name: Remove default symbolic link (created by nginx install by default)
-  ansible.builtin.file:
+- name: Remove default nginx config (created by nginx install by default)
+  file:
     path: /etc/nginx/sites-enabled/default
     state: absent
+  become: yes
+
+
+- name: Remove index.nginx-debian.html (created by nginx install by default)
+  file:
+    path: /var/www/html/index.nginx-debian.html
+    state: absent
+  become: yes
 
 
 - name: Put data in evoting since the current is not updated
@@ -23,6 +31,16 @@
   become: yes
 
 
+#- name: copy TLS key
+#  copy: src=files/nginx.key dest={{ key_file }} owner=root mode=0600
+#  notify: restart nginx
+#
+#
+#- name: copy TLS certificate
+#  copy: src=files/nginx.crt dest={{ cert_file }}
+#  notify: restart nginx
+
+
 - name: Create symbolic link to evoting nginx
   file:
     src: /etc/nginx/sites-available/evoting
@@ -31,6 +49,5 @@
     owner: ubuntu
     group: ubuntu
     state: link
+  notify: restart nginx
   become: yes
-  tags:
-    - create_symlink_evoting_nginx

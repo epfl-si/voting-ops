@@ -1,1 +1,6 @@
 NODE_VERSION: v18.12.1
+
+db_dir: "{{ INSTALL_DIR }}/data"
+
+portal_server_url: "http://itsevoting0008.xaas.epfl.ch"
+conode_server_url: "http://itsevoting0009.xaas.epfl.ch"

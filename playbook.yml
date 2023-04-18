@@ -1,12 +1,18 @@
+---
 - name: Setup memcoin node
   hosts: conodes
   gather_facts: no
+  handlers:
+    - import_tasks: handlers/main.yml
   roles:
-    - name: roles/conode
+    - name: Setup conode
+      role: roles/conode
 
 - name: Setup front-end
   hosts: portal
   gather_facts: no
+  handlers:
+    - import_tasks: handlers/main.yml
   roles:
-    - name: roles/portal
-
+    - name: Setup portal
+      role: roles/portal

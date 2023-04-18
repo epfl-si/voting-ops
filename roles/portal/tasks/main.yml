@@ -3,6 +3,11 @@
   tags: always
 
 
+#- name: Update apt
+#  apt: update_cache=yes
+#  become: yes
+
+
 - name: Manage nginx
   import_tasks:
     file: nginx.yml
@@ -75,31 +80,6 @@
     file: web_frontend.yml
   tags:
     - install_web_frontend
-
-
-- name: Move voting_nginx.service template in /etc/systemd/system
-  ansible.builtin.template:
-    src: voting_nginx.service
-    dest: /etc/systemd/system/voting_nginx.service
-    owner: root
-    group: root
-    mode: '0755'
-  notify:
-#    - reload systemctl
-    - restart nginx
-  become: true
-  tags:
-    - install_voting_nginx_service
-
-
-- name: Run nginx template
-  service:
-    name: voting_nginx
-    enabled: yes
-    state: started
-  become: true
-  tags:
-    - run_voting_nginx_service
 
 
 - name: Create config.env
