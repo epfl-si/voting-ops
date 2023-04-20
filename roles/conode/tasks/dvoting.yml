@@ -36,8 +36,3 @@
   changed_when: false
   tags:
     - run_dvoting_service
-
-
-#- name: Execute start_dvoting.sh
-#  command: sh start_dvoting.sh
-#  changed_when: false
