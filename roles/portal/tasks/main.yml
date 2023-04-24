@@ -50,43 +50,17 @@
     - install_web_backend
 
 
-- name: Create config.env
-  ansible.builtin.template:
-    src: config.env
-    dest: "web-backend-{{ DELA_VERSION }}/config.env"
-    owner: ubuntu
-    group: ubuntu
-    mode: '0755'
-  tags:
-    - create_config_env
-
-
-- name: Check if config.env is already defined in .profile file
-  lineinfile:
-    state: absent
-    path: ".profile"
-    line: ". web-backend-{{ DELA_VERSION }}/config.env"
-  check_mode: yes
-  changed_when: false
-  register: _check_config_in_profile
-  tags:
-    - check_config_in_profile
-
-- name: Define config.env variables if undefined
-  lineinfile:
-    state: present
-    path: ".profile"
-    line: "{{ item }}"
-  with_items:
-    - " "
-    - ". web-backend-{{ DELA_VERSION }}/config.env"
-  when: _check_config_in_profile.found == 0
-
-- name: Apply config.env
-  ansible.builtin.shell: ". {{ INSTALL_DIR }}/.profile"
-  when: _check_config_in_profile.found == 0
-  tags:
-    - apply_conf_env_from_profile
+## Useless, since all environment variables are set directly in voting_portal.service
+#
+#- name: Create config.env
+#  ansible.builtin.template:
+#    src: config.env
+#    dest: "web-backend-{{ DELA_VERSION }}/config.env"
+#    owner: ubuntu
+#    group: ubuntu
+#    mode: '0755'
+#  tags:
+#    - create_config_env
 
 
 # TODO: explore the solution PM2 : https://pm2.keymetrics.io/

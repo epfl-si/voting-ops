@@ -5,6 +5,14 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/home/ubuntu/web-backend-{{ DELA_VERSION }}
+
+Environment=FRONT_END_URL={{ portal_server_url }}
+Environment=DELA_NODE_URL={{ conode_server_url }}:2000
+Environment=SESSION_SECRET="nimporte quasession secret"
+Environment=PUBLIC_KEY={{ _secrets['PUBLIC_KEY'] }}
+Environment=PRIVATE_KEY={{ _secrets['PRIVATE_KEY'] }}
+Environment=DB_PATH={{ db_dir }}
+
 Environment=NODE_ENV=production
 Environment=PORT=6000
 Environment=NODE_PATH=web-backend-{{ DELA_VERSION }}/node_modules
