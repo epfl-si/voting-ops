@@ -1,0 +1,49 @@
+#- name: Install web backend package.json
+#  community.general.npm:
+#    path: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/backend"
+
+- name: Install web backend package.json
+  ansible.builtin.shell: "{{ INSTALL_DIR }}/node-{{ NODE_VERSION }}-linux-x64/bin/npm install"
+  args:
+    chdir: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/backend"
+
+
+- name: Build web backend
+  ansible.builtin.shell: NODE_ENV=production ./node_modules/.bin/tsc --outDir ./build/
+  args:
+    chdir: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/backend"
+
+
+- name: Create a directory web-backend
+  ansible.builtin.file:
+    path: "{{ INSTALL_DIR }}/web-backend"
+    state: directory
+    mode: '0755'
+
+
+- name: Copy Server.js
+  ansible.builtin.copy:
+    src: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/backend/build/Server.js"
+    dest: "{{ INSTALL_DIR }}/web-backend/Server.js"
+    remote_src: yes
+
+
+- name: Copy dbUtils.js
+  ansible.builtin.copy:
+    src: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/backend/dbUtils.js"
+    dest: "{{ INSTALL_DIR }}/web-backend/dbUtils.js"
+    remote_src: yes
+
+
+- name: Create a directory web-backend/node_modules
+  ansible.builtin.file:
+    path: "{{ INSTALL_DIR }}/web-backend/node_modules"
+    state: directory
+    mode: '0755'
+
+
+- name: Copy node_modules directory
+  ansible.builtin.copy:
+    src: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/backend/node_modules/"
+    dest: "{{ INSTALL_DIR }}/web-backend/node_modules/"
+    remote_src: yes

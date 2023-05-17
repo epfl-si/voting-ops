@@ -2,7 +2,7 @@
 
 - name: last memcoin version exists ?
   ansible.builtin.shell:
-    cmd: "test -e memcoin-linux-amd64-{{ DELA_VERSION }} && echo 'It exists'"
+    cmd: "test -e memcoin-linux-amd64-v{{ DELA_VERSION_UNDERSCORE }} && echo 'It exists'"
   failed_when: false
   changed_when: false
   register: _memcoin_exist
@@ -10,8 +10,8 @@
 
 - name: Download last memcoin version if not already done
   get_url:
-    url: "{{ DELA_GITHUB }}{{ DELA_VERSION_DOT }}/memcoin-linux-amd64-{{ DELA_VERSION }}"
-    dest: "{{ INSTALL_DIR }}/memcoin-linux-amd64-{{ DELA_VERSION }}"
+    url: "{{ DELA_GITHUB }}v{{ DELA_VERSION }}/memcoin-linux-amd64-v{{ DELA_VERSION_UNDERSCORE }}"
+    dest: "{{ INSTALL_DIR }}/memcoin-linux-amd64-v{{ DELA_VERSION_UNDERSCORE }}"
     mode: 'u=rwx,g=rx'
     owner: ubuntu
     group: ubuntu
@@ -22,8 +22,8 @@
 
 - name: Put memcoin in versions directory
   copy:
-    src: "memcoin-linux-amd64-{{ DELA_VERSION }}"
-    dest: "{{ dela_archive }}/memcoin-linux-amd64-{{ DELA_VERSION }}"
+    src: "memcoin-linux-amd64-v{{ DELA_VERSION_UNDERSCORE }}"
+    dest: "{{ dela_archive }}/memcoin-linux-amd64-v{{ DELA_VERSION_UNDERSCORE }}"
     remote_src: yes
     mode: 'u=rwx,g=rx'
     owner: ubuntu
@@ -44,7 +44,7 @@
 
 - name: Create symbolic link to latest memcoin in bin directory
   file:
-    src: "{{ dela_archive }}/memcoin-linux-amd64-{{ DELA_VERSION }}"
+    src: "{{ dela_archive }}/memcoin-linux-amd64-v{{ DELA_VERSION_UNDERSCORE }}"
     dest: "{{ memcoin_bin_path }}"
     mode: 'u=rwx,g=rx'
     owner: ubuntu

@@ -1,7 +1,8 @@
 RUNENV: test
 
-DELA_VERSION_DOT: v0.4.5-alpha
-DELA_VERSION: v0_4_5-alpha
+DELA_VERSION: "0.4.4"
+DELA_VERSION_UNDERSCORE: "0_4_4"
+
 DELA_GITHUB: "https://github.com/dedis/d-voting/releases/download/"
 
 SECRETS_FILE: secrets.yml

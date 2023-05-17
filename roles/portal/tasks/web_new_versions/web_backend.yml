@@ -1,0 +1,60 @@
+---
+- name: last web-backend tar.gz exists ?
+  ansible.builtin.shell:
+    cmd: "test -e web-backend-v{{ DELA_VERSION }}.tar.gz && echo 'It exists'"
+  failed_when: false
+  changed_when: false
+  register: _web_backend_exist
+
+
+- name: Download web-backend-v0_4_5-alpha.tar.gz
+  ansible.builtin.get_url:
+    url: "{{ DELA_GITHUB }}v{{ DELA_VERSION }}/web-backend-v{{ DELA_VERSION }}.tar.gz"
+    dest: "{{ INSTALL_DIR }}/web-backend-v{{ DELA_VERSION }}.tar.gz"
+    mode: '0755'
+  tags:
+    - download_web_backend
+  when: _web_backend_exist.stdout.find('It exists') == -1
+
+
+- name: Unzip last web-backend tar.gz version  # tar xvfz web-backend-v0_4_5-alpha.tar.gz
+  ansible.builtin.unarchive:
+    src: "web-backend-v{{ DELA_VERSION }}.tar.gz"
+    dest: "{{ INSTALL_DIR }}"
+    remote_src: yes
+  tags:
+    - unzip_web_backend
+  when: _web_backend_exist.stdout.find('It exists') == -1
+
+
+- name: Remove web-backend directory if exists
+  ansible.builtin.file:
+    path: "{{ INSTALL_DIR }}/web-backend"
+    state: absent
+  when: _web_backend_exist.stdout.find('It exists') == -1
+
+
+- name: Rename the unzipped directory to web-backend
+  ansible.builtin.command: "mv {{ INSTALL_DIR }}/web-backend-v{{ DELA_VERSION }} {{ INSTALL_DIR }}/web-backend"
+  tags:
+    - rename_unzipped_directory_to_backend
+  when: _web_backend_exist.stdout.find('It exists') == -1
+
+
+- name: Create config.env
+  ansible.builtin.template:
+    src: config.env
+    dest: "web-backend/config.env"
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+  tags:
+    - create_config_env
+
+
+- name: Remove undefined*  # rm -rf /home/ubuntu/web-backend/undefined*
+  ansible.builtin.file:
+    path: "web-backend/undefined*"
+    state: absent
+  tags:
+    - remove_undefined

@@ -3,9 +3,12 @@
   tags: always
 
 
-#- name: Update apt
-#  apt: update_cache=yes
-#  become: yes
+- name: Update apt-get repo and cache
+  apt:
+    update_cache: yes
+  become: true
+  tags:
+    - sudo_apt_update
 
 
 - name: Manage nginx
@@ -15,52 +18,73 @@
     - manage_nginx
 
 
-- name: last node tar.xz version present ?
-  ansible.builtin.shell:
-    cmd: test -e node-{{ NODE_VERSION }}-linux-x64.tar.xz && echo 'It exists'
-  failed_when: false
+- name: Get specified nodejs version
+  import_tasks:
+    file: get_node.yml
+  tags:
+    - get_nodejs
+
+
+- name: Create data directory
+  ansible.builtin.file:
+    path: "{{ db_dir }}"
+    state: directory
+    mode: '0755'
+
+
+- name: Create user database directory
+  ansible.builtin.file:
+    path: "{{ db_dir }}/dvoting-users"
+    state: directory
+    mode: '0755'
+
+
+- name: Install web backend/frontend for version 0.4.4
+  import_tasks:
+    file: web_old_versions.yml
+  tags:
+    - install_web
+  when: 'DELA_VERSION == "0.4.4"'
+
+
+- name: Install web backend/frontend for versions >= 0.4.5
+  import_tasks:
+    file: web_new_versions.yml
+  tags:
+    - install_web
+  when: 'DELA_VERSION != "0.4.4"'
+
+
+- name: Copy all /build files in /var/www/html
+  copy:
+    src: "{{ INSTALL_DIR }}/build/"
+    dest: /var/www/html/
+    remote_src: yes
+  become: yes
+  tags:
+    - move_build_frontend_to_var_www_html
+
+
+# AddAdmin is idempotent
+- name: Add admins
+  shell: |
+    NODE_PATH=web-backend/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node -e 'require("./web-backend/dbUtils").addAdmin("data/dvoting-users", 121769)'
+    NODE_PATH=web-backend/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node -e 'require("./web-backend/dbUtils").addAdmin("data/dvoting-users", 128871)'
   changed_when: false
   tags:
-    - check_nodejs
-  register: _nodejs_exist
-
-- name: Download last linux node tar.xz version
-  ansible.builtin.get_url:
-    url: "https://nodejs.org/dist/{{ NODE_VERSION }}/node-{{ NODE_VERSION }}-linux-x64.tar.xz"
-    dest: "{{ INSTALL_DIR }}/node-{{ NODE_VERSION }}-x64.tar.gz"
-    mode: '0755'
-  tags:
-    - download_nodejs
-  when: _nodejs_exist.stdout.find('It exists') == -1
-
-- name: Unzip last node tar.gz version # tar -xvf node-{{ NODE_VERSION }}-linux-x64.tar.gz
-  ansible.builtin.unarchive:
-    src: "node-{{ NODE_VERSION }}-x64.tar.gz"
-    dest: "{{ INSTALL_DIR }}"
-    remote_src: yes
-  tags:
-    - unzip_nodejs
-  when: _nodejs_exist.stdout.find('It exists') == -1
+    - add_admins
 
 
-- name: Install web backend
-  import_tasks:
-    file: web_backend.yml
-  tags:
-    - install_web_backend
+#- name: Add admins
+#  shell: |
+#    NODE_PATH=web-backend/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node -e 'require("./web-backend/dbUtils").listEls("data/dvoting-users")'
+#    NODE_ENV=production PORT=6000 NODE_PATH=web-backend/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node web-backend/Server.js
+#    NODE_PATH=web-backend/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node -e 'require("./web-backend/dbUtils").addAdmin("data/dvoting-users", 121769)'
+#    NODE_PATH=web-backend/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node -e 'require("./web-backend/dbUtils").addAdmin("data/dvoting-users", 128871)'
+#    NODE_PATH=web-backend/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node -e 'require("./web-backend/dbUtils").addAdmin("data/dvoting-users")'
+#    NODE_PATH=web-backend/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node -e 'require("./web-backend/dbUtils").listEls("data/dvoting-users")'
+#    NODE_ENV=production PORT=6000 NODE_PATH=web-backend/node_modules ./node-{{ NODE_VERSION }}-linux-x64/bin/node web-backend/Server.js
 
-
-## Useless, since all environment variables are set directly in voting_portal.service
-#
-#- name: Create config.env
-#  ansible.builtin.template:
-#    src: config.env
-#    dest: "web-backend-{{ DELA_VERSION }}/config.env"
-#    owner: ubuntu
-#    group: ubuntu
-#    mode: '0755'
-#  tags:
-#    - create_config_env
 
 
 # TODO: explore the solution PM2 : https://pm2.keymetrics.io/
@@ -87,10 +111,3 @@
   become: true
   tags:
     - run_server_service
-
-
-- name: Install web frontend
-  import_tasks:
-    file: web_frontend.yml
-  tags:
-    - install_web_frontend

@@ -1,0 +1,29 @@
+- name: Install web frontend package.json
+  ansible.builtin.shell: "{{ INSTALL_DIR }}/node-{{ NODE_VERSION }}-linux-x64/bin/npm install"
+  args:
+    chdir: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/frontend"
+
+
+- name: Build web frontend
+  ansible.builtin.shell: "NODE_ENV=production HTTPS=true BUILD_PART=./build/ ./node_modules/.bin/react-scripts build"
+  args:
+    chdir: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/frontend"
+
+
+- name: Remove build directory if exists
+  ansible.builtin.file:
+    path: "{{ INSTALL_DIR }}/build"
+    state: absent
+
+
+- name: Create build directory
+  ansible.builtin.file:
+    path: "{{ INSTALL_DIR }}/build"
+    state: directory
+
+
+- name: Copy build directory
+  ansible.builtin.copy:
+    src: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/frontend/build/"
+    dest: "{{ INSTALL_DIR }}/build/"
+    remote_src: yes

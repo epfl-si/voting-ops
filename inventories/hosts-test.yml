@@ -12,6 +12,19 @@ portal:
       ansible_port: 22
       ansible_user: ubuntu
 
+devconodes:
+  hosts:
+    itsevoting0004.xaas.epfl.ch:
+      ansible_host: 10.95.96.146
+      ansible_port: 22
+      ansible_user: ubuntu
+
+devportal:
+  hosts:
+    itsevoting0005.xaas.epfl.ch:
+      ansible_host: 10.95.96.147
+      ansible_port: 22
+      ansible_user: ubuntu
 
 
 #conodes:

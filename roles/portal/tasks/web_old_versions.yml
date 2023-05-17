@@ -1,0 +1,19 @@
+- name: Get source code
+  import_tasks:
+    file: ./web_old_versions/source_code.yml
+  tags:
+    - get_source_code
+
+
+- name: Install web backend
+  import_tasks:
+    file: ./web_old_versions/web_backend.yml
+  tags:
+    - install_web_backend
+
+
+- name: Install web frontend
+  import_tasks:
+    file: ./web_old_versions/web_frontend.yml
+  tags:
+    - install_web_frontend

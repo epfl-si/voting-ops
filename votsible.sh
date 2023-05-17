@@ -92,7 +92,7 @@ case "$mode" in
                         "${ansible_args[@]}" \
                         -e "inventory_mode=$inventory_mode" \
                         -e "keybase_path='$keybase_path'" \
-                        playbook.yml
+                        playbook-dev.yml
         ;;
     ansible)
         ansible -i $inventory $ansible_flags "${ansible_args[@]}"
