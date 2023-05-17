@@ -9,9 +9,12 @@
 
 - name: Remove default nginx config (created by nginx install by default)
   file:
-    path: /etc/nginx/sites-enabled/default
+    path: "/etc/nginx/{{ item }}/default"
     state: absent
   become: yes
+  loop:
+    - sites-enabled
+    - sites-available
 
 
 - name: Remove index.nginx-debian.html (created by nginx install by default)

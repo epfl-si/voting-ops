@@ -14,7 +14,13 @@
     chdir: "{{ INSTALL_DIR }}/d-voting-{{ DELA_VERSION }}/web/backend"
 
 
-- name: Create a directory web-backend
+- name: Remove web-backend directory if exists
+  ansible.builtin.file:
+    path: "{{ INSTALL_DIR }}/web-backend"
+    state: absent
+
+
+- name: Create web-backend directory
   ansible.builtin.file:
     path: "{{ INSTALL_DIR }}/web-backend"
     state: directory
