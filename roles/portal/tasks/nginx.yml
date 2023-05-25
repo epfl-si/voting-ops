@@ -4,14 +4,14 @@
     name: nginx
     state: present
     force_apt_get: yes
-  become: yes
+  become: true
 
 
 - name: Remove default nginx config (created by nginx install by default)
   file:
     path: "/etc/nginx/{{ item }}/default"
     state: absent
-  become: yes
+  become: true
   loop:
     - sites-enabled
     - sites-available
@@ -21,7 +21,7 @@
   file:
     path: /var/www/html/index.nginx-debian.html
     state: absent
-  become: yes
+  become: true
 
 
 - name: Put data in evoting since the current is not updated
@@ -31,7 +31,7 @@
     owner: ubuntu
     group: ubuntu
     mode: '0755'
-  become: yes
+  become: true
 
 
 #- name: copy TLS key
@@ -53,11 +53,11 @@
     group: ubuntu
     state: link
   notify: restart nginx
-  become: yes
+  become: true
 
 
 - name: start nginx
   service:
     name: nginx
     state: started
-  become: yes
+  become: true
