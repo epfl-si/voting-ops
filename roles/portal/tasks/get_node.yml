@@ -15,7 +15,6 @@
     mode: '0755'
   tags:
     - download_nodejs
-  when: _nodejs_exist.stdout.find('It exists') == -1
 
 
 - name: Unzip last node tar.gz version # tar -xvf node-{{ NODE_VERSION }}-linux-x64.tar.gz
@@ -25,7 +24,6 @@
     remote_src: yes
   tags:
     - unzip_nodejs
-  when: _nodejs_exist.stdout.find('It exists') == -1
 
 
 - name: Remove previous symlink to node version
@@ -33,7 +31,7 @@
     path: /usr/bin/node
     state: absent
   become: true
-  when: _nodejs_exist.stdout.find('It exists') == -1
+  when: _nodejs_exist.stdout.find('It exists') != -1
 
 
 - name: Create symlink to node version
@@ -43,4 +41,3 @@
     dest: /usr/bin/node
     state: link
   become: true
-  when: _nodejs_exist.stdout.find('It exists') == -1

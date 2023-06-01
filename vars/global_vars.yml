@@ -1,7 +1,5 @@
-RUNENV: test
-
-DELA_VERSION: "0.4.4"
-DELA_VERSION_UNDERSCORE: "0_4_4"
+DELA_VERSION: "{{ dela_version }}"
+DELA_VERSION_UNDERSCORE: "{{ dela_version_underscore }}"
 
 DELA_GITHUB: "https://github.com/dedis/d-voting/releases/download/"
 

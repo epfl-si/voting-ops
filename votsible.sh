@@ -33,12 +33,13 @@ ensure_ansible () {
 
 # ------------------------------------------------------------------------------
 
-###                                                                     defaults
+###                                                               defaults
 mode=ansible-playbook
 playbook_flags="-e @vars/global_vars.yml"
 ansible_flags="-e @vars/global_vars.yml"
 inventory_mode="test"
 keybase_path="/keybase/team/epfl_evoting"
+dela_version="0.4.4"
 
 declare -a ansible_args
 while [ "$#" -gt 0 ]; do
@@ -50,6 +51,7 @@ while [ "$#" -gt 0 ]; do
             ;;
         --prod) 
             inventory_mode="prod"
+            dela_version="0.4.5-alpha"
             shift 
             ;;
         --qual)
@@ -86,13 +88,17 @@ inventory="inventories/hosts-${inventory_mode}.yml"
 ###                                                                    execution
 ensure_ansible
 
+dela_version_underscore=${dela_version//./_}
+
 case "$mode" in
     ansible-playbook)
         ansible-playbook $playbook_flags -i $inventory \
                         "${ansible_args[@]}" \
                         -e "inventory_mode=$inventory_mode" \
                         -e "keybase_path='$keybase_path'" \
-                        playbook-dev.yml
+                        -e "dela_version='$dela_version'" \
+                        -e "dela_version_underscore='$dela_version_underscore'" \
+                        playbook.yml
         ;;
     ansible)
         ansible -i $inventory $ansible_flags "${ansible_args[@]}"
