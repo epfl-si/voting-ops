@@ -1,7 +1,7 @@
 ---
 - name: last web-backend tar.gz exists ?
   ansible.builtin.shell:
-    cmd: "test -e web-backend-v{{ DELA_VERSION }}.tar.gz && echo 'It exists'"
+    cmd: "test -e web-backend-v{{ DELA_VERSION_UNDERSCORE }}.tar.gz && echo 'It exists'"
   failed_when: false
   changed_when: false
   register: _web_backend_exist
@@ -9,17 +9,17 @@
 
 - name: Download web-backend-v0_4_5-alpha.tar.gz
   ansible.builtin.get_url:
-    url: "{{ DELA_GITHUB }}v{{ DELA_VERSION }}/web-backend-v{{ DELA_VERSION }}.tar.gz"
-    dest: "{{ INSTALL_DIR }}/web-backend-v{{ DELA_VERSION }}.tar.gz"
+    url: "{{ DELA_GITHUB }}v{{ DELA_VERSION }}/web-backend-v{{ DELA_VERSION_UNDERSCORE }}.tar.gz"
+    dest: "{{ INSTALL_DIR }}/web-backend-v{{ DELA_VERSION_UNDERSCORE }}.tar.gz"
     mode: '0755'
   tags:
     - download_web_backend
   when: _web_backend_exist.stdout.find('It exists') == -1
 
 
-- name: Unzip last web-backend tar.gz version  # tar xvfz web-backend-v0_4_5-alpha.tar.gz
+- name: Unzip last web-backend tar.gz version  # tar xvfz web-backend-v{{ DELA_VERSION_UNDERSCORE }}.tar.gz
   ansible.builtin.unarchive:
-    src: "web-backend-v{{ DELA_VERSION }}.tar.gz"
+    src: "web-backend-v{{ DELA_VERSION_UNDERSCORE }}.tar.gz"
     dest: "{{ INSTALL_DIR }}"
     remote_src: yes
   tags:
@@ -35,7 +35,7 @@
 
 
 - name: Rename the unzipped directory to web-backend
-  ansible.builtin.command: "mv {{ INSTALL_DIR }}/web-backend-v{{ DELA_VERSION }} {{ INSTALL_DIR }}/web-backend"
+  ansible.builtin.command: "mv {{ INSTALL_DIR }}/web-backend-v{{ DELA_VERSION_UNDERSCORE }} {{ INSTALL_DIR }}/web-backend"
   tags:
     - rename_unzipped_directory_to_backend
   when: _web_backend_exist.stdout.find('It exists') == -1
