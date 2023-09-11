@@ -3,7 +3,7 @@ DELA_VERSION_UNDERSCORE: "{{ dela_version_underscore }}"
 
 DELA_GITHUB: "https://github.com/dedis/d-voting/releases/download/"
 
-SECRETS_FILE: secrets.yml
-_secrets: "{{ lookup('file', '{{ keybase_path }}/{{ RUNENV }}/{{ SECRETS_FILE }}') | from_yaml }}"
+_all_secrets: "{{ lookup('file', keybase_path + '/secrets.yml') | from_yaml }}"
+_secrets: "{{ _all_secrets[RUNENV] }}"
 
 INSTALL_DIR: /home/ubuntu

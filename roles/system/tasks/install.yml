@@ -1,0 +1,53 @@
+---
+- name: Ensure Docker engine is installed
+  ansible.builtin.package:
+    name: docker.io
+    state: latest
+
+- name: Ensure Docker service is enabled and running
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+
+# - name: Ensure python3 & pip3 are installed
+#   ansible.builtin.package:
+#     name: "{{ item }}"
+#     state: latest
+#   with_items: 
+#     - python3
+#     - python3-pip
+
+# - name: Ensure presence of python dependecy for building docker images
+#   ansible.builtin.pip:
+#     name: docker-py
+
+
+# ------------------------------------------------- docker-ce from official repo
+# - name: Add Docker GPG key
+#   apt_key:
+#     url: https://download.docker.com/linux/debian/gpg
+#     state: present
+
+# - name: Add Docker repository
+#   apt_repository:
+#     repo: deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable
+#     state: present
+
+# - name: Install Docker Engine
+#   apt:
+#     name:
+#       - docker-ce
+#       - docker-ce-cli
+#       - containerd.io
+
+# - name: Add user to docker group
+#   user:
+#     name: "{{ ansible_user }}"
+#     groups: docker
+
+# - name: Start Docker service
+#   service:
+#     name: docker
+#     state: started

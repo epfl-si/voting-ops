@@ -62,6 +62,10 @@ while [ "$#" -gt 0 ]; do
             inventory_mode="test"
             shift 
             ;;
+        --demo)
+            inventory_mode="demo"
+            shift 
+            ;;
         --dev|--local)
             inventory_mode="dev"
             shift 
@@ -85,6 +89,13 @@ inventory="inventories/hosts-${inventory_mode}.yml"
 [ -d "$keybase_path" ] || die "Invalid keybase path $keybase_path. May be keybase is not running ?"
 
 
+if [ -f "playbook-${inventory_mode}.yml" ] ; then
+    playbook="playbook-${inventory_mode}.yml"
+else
+    playbook="playbook.yml"
+fi
+
+
 ###                                                                    execution
 ensure_ansible
 
@@ -98,7 +109,7 @@ case "$mode" in
                         -e "keybase_path='$keybase_path'" \
                         -e "dela_version='$dela_version'" \
                         -e "dela_version_underscore='$dela_version_underscore'" \
-                        playbook.yml
+                        $playbook
         ;;
     ansible)
         ansible -i $inventory $ansible_flags "${ansible_args[@]}"

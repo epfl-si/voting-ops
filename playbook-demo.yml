@@ -1,0 +1,14 @@
+---
+- name: Debug variables
+  hosts: all
+  tags: debug
+  tasks:
+    - debug:
+        msg: "Secrets: {{ _secrets | to_yaml }}"
+
+- name: System
+  hosts: all
+  # gather_facts: no
+  roles: 
+    - name: setup common system requirements
+      role: roles/system

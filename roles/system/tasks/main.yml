@@ -1,0 +1,35 @@
+---
+- name: Ensure ssh keys for admins
+  tags:
+    - system
+    - system.config
+  authorized_key:
+    user: "{{ ansible_user }}"
+    state: present
+    key: "https://github.com/{{ item }}.keys"
+  with_items: "{{ _secrets.SSH_KEYS }}"
+
+- name: Ensure ssh keys for admins
+  tags:
+    - system
+    - system.config
+  authorized_key:
+    user: root
+    state: present
+    key: "https://github.com/{{ item }}.keys"
+  with_items: "{{ _secrets.SSH_KEYS }}"
+  become: yes
+  when: ansible_user != "root"
+
+
+- name: Install system
+  tags:
+    - system
+    - system.install
+  include_tasks:
+    file: install.yml
+    apply:
+      tags:
+        - system
+        - system.install
+

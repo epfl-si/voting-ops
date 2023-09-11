@@ -1,0 +1,36 @@
+all:
+  hosts:
+    # itsevoting003.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.145
+    #   ansible_port: 22
+    #   ansible_user: root
+    # itsevoting0004.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.146
+    #   ansible_port: 22
+    #   ansible_user: root
+    # itsevoting0005.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.147
+    #   ansible_port: 22
+    #   ansible_user: root
+    # itsevoting0006.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.148
+    #   ansible_port: 22
+    #   ansible_user: root
+    itsevoting0008.xaas.epfl.ch:
+      ansible_host: 10.95.96.167
+      ansible_port: 22
+      ansible_user: root
+    itsevoting0009.xaas.epfl.ch:
+      ansible_host: 10.95.96.166
+      ansible_port: 22
+      ansible_user: root
+    itsevoting0010.xaas.epfl.ch:
+      ansible_host: 10.95.96.173
+      ansible_port: 22
+      ansible_user: root
+    itsevoting0011.xaas.epfl.ch:
+      ansible_host: 10.95.96.174
+      ansible_port: 22
+      ansible_user: root
+  vars:
+    RUNENV: demo
