@@ -1,0 +1,16 @@
+---
+- include_vars: dela_vars.yml
+  tags: always
+
+- name: Include dela run task
+  tags:
+    - dela
+    - dela.run
+  include_tasks:
+    file: run.yml
+    apply:
+      tags:
+        - dela
+        - dela.run
+
+

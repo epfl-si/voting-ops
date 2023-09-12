@@ -1,0 +1,9 @@
+---
+
+dela:
+  public_key: '{{ _secrets.dela_public_key | default("7a97bfc968c74fbf0553fdec1a97d8265bd3a32e31edd61e296ea701a009147e") }}'
+  worker_image: '{{ DELA_IMAGE_URL | default("ghcr.io/c4dt/d-voting-dela:latest") }}'
+  worker_hostname: '{{ DELA_WORKER_HOSTNAME | default(inventory_hostname) }}'
+  workers_count: '{{ DELA_WORKERS_COUNT | default(2) }}'
+  proxy_port: '{{ DELA_PROXY_PORT | default(8080) }}'
+  node_port: '{{ DELA_NODE_PORT | default(2000) }}'

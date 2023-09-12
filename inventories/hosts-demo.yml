@@ -28,9 +28,9 @@ all:
       ansible_host: 10.95.96.173
       ansible_port: 22
       ansible_user: root
-    itsevoting0011.xaas.epfl.ch:
-      ansible_host: 10.95.96.174
-      ansible_port: 22
-      ansible_user: root
+    # itsevoting0011.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.174
+    #   ansible_port: 22
+    #   ansible_user: root
   vars:
     RUNENV: demo

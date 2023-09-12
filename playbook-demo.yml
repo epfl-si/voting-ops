@@ -12,3 +12,9 @@
   roles: 
     - name: setup common system requirements
       role: roles/system
+
+- name: Demo
+  hosts: all
+  roles:
+    - name: setup dela demo
+      role: roles/demo

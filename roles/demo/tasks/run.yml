@@ -1,0 +1,29 @@
+---
+
+- name: Ensure volumes for dela worker node(s)
+  community.docker.docker_volume:
+    name: "dela-worker-{{ item }}-data"
+  with_sequence: 'start=0 count={{ dela.workers_count | int }}'
+
+- name: Run dela worker node(s)
+  community.docker.docker_container:
+    name: dela-worker-{{ item }}
+    container_default_behavior: no_defaults
+    hostname: "{{ dela.worker_hostname }}"
+    image: "{{ dela.worker_image }}"
+    env:
+      PROXYKEY: "{{ dela.public_key }}"
+      PROXYPORT: "{{ proxy_port }}"
+      PUBLICPORT: "{{ node_port }}"
+      LLVL: info
+    ports:
+      - "{{ proxy_port }}:{{ proxy_port }}"
+      - "{{ node_port }}:{{ node_port }}"
+    restart_policy: 'unless-stopped'
+    state: started
+    volumes:
+      - "dela-worker-{{ item }}-data:/data"
+  with_sequence: 'start=0 count={{ dela.workers_count | int }}'
+  vars:
+    proxy_port: "{{ dela.proxy_port | int + item | int }}"
+    node_port: "{{ dela.node_port | int + item | int }}"
