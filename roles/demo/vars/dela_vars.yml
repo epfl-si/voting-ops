@@ -7,3 +7,6 @@ dela:
   workers_count: '{{ DELA_WORKERS_COUNT | default(2) }}'
   proxy_port: '{{ DELA_PROXY_PORT | default(8080) }}'
   node_port: '{{ DELA_NODE_PORT | default(2000) }}'
+  join_address: '{{ _secrets.dela_join_address }}'
+  join_token: '{{ _secrets.dela_join_token }}'
+  join_hash: '{{ _secrets.dela_join_hash }}'

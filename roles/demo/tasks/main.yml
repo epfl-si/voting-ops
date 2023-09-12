@@ -13,4 +13,8 @@
         - dela
         - dela.run
 
-
+- name: Include dela admin task
+  tags:
+    - dela
+  include_tasks:
+    file: admin.yml

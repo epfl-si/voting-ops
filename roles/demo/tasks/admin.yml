@@ -1,0 +1,11 @@
+# ./votsible.sh --demo -t dela -t dela.join
+# Note that up to date secrets (dela_join_{address,token,hash}) are required 
+# TODO: run this only if nodes are not already part of a network...
+- name: Join network with newly created nodes
+  community.docker.docker_container_exec:
+    container: 'dela-worker-{{ item }}'
+    command: "memcoin --config /data/node minogrpc join --address {{ dela.join_address }} --token {{ dela.join_token }} --cert-hash {{ dela.join_hash }}"
+  # register: result
+  tags:
+    - dela.join
+  with_sequence: 'start=0 count={{ dela.workers_count | int }}'  
