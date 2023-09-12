@@ -1,15 +1,19 @@
 ---
-- name: Ensure Docker engine is installed
+# - name: Ensure Docker engine is installed
+#   ansible.builtin.package:
+#     name: docker.io
+#     state: latest
+
+# - name: Ensure Docker service is enabled and running
+#   ansible.builtin.service:
+#     name: docker
+#     state: started
+#     enabled: true
+
+- name: Ensure default Ubuntu Docker engine is NOT installed
   ansible.builtin.package:
     name: docker.io
-    state: latest
-
-- name: Ensure Docker service is enabled and running
-  ansible.builtin.service:
-    name: docker
-    state: started
-    enabled: true
-
+    state: absent
 
 # - name: Ensure python3 & pip3 are installed
 #   ansible.builtin.package:
@@ -25,29 +29,32 @@
 
 
 # ------------------------------------------------- docker-ce from official repo
-# - name: Add Docker GPG key
-#   apt_key:
-#     url: https://download.docker.com/linux/debian/gpg
-#     state: present
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
 
-# - name: Add Docker repository
-#   apt_repository:
-#     repo: deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable
-#     state: present
+- name: Add Docker repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable
+    state: present
 
-# - name: Install Docker Engine
-#   apt:
-#     name:
-#       - docker-ce
-#       - docker-ce-cli
-#       - containerd.io
+- name: Install Docker Engine
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
 
-# - name: Add user to docker group
-#   user:
-#     name: "{{ ansible_user }}"
-#     groups: docker
+- name: Add user to docker group
+  user:
+    name: "{{ item }}"
+    groups: docker
+  with_items:
+    - root
+    - ubuntu
 
-# - name: Start Docker service
-#   service:
-#     name: docker
-#     state: started
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
