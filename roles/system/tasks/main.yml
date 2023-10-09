@@ -33,3 +33,10 @@
         - system
         - system.install
 
+- name: Reset system
+  tags:
+    - never
+    - reset
+  include_tasks:
+    file: reset.yml
+

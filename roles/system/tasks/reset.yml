@@ -1,0 +1,47 @@
+# ------------------------------------------------------------------
+#
+# - name: Reset Docker debug
+#   tags:
+#     - never
+#     - reset_docker_yes_yes_please
+#   ansible.builtin.debug:
+#     msg: "=================== !!! resetting docker !!! ========="
+
+- name: Get running containers
+  tags:
+    - never
+    - reset_docker_yes_yes_please
+  docker_host_info:
+    containers: yes
+    images: yes
+    verbose_output: yes
+  register: docker_info
+
+- name: "Stop all running containers ================= !!!!"
+  tags:
+    - never
+    - reset_docker_yes_yes_please
+  docker_container:
+    name: "{{ item }}"
+    state: stopped
+  loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+
+- name: "Remove all docker images ==================== !!!!"
+  tags:
+    - never
+    - reset_docker_yes_yes_please
+  docker_image:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ docker_info.images | map(attribute='Id') | list }}"
+
+- name: "Cleanup docker ============================== !!!!"
+  tags:
+    - never
+    - reset_docker_yes_yes_please
+  community.docker.docker_prune:
+    containers: true
+    images: true
+    networks: true
+    volumes: true
+    builder_cache: true

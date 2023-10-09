@@ -1,0 +1,36 @@
+---
+- include_vars: traefik_vars.yml
+  tags: always
+
+- name: Traefik installation
+  tags:
+    - traefik
+    - traefik.install
+  include_tasks:
+    file: install.yml
+    apply:
+      tags:
+        - traefik
+        - traefik.install
+
+- name: Traefik Configuration
+  tags:
+    - traefik
+    - traefik.config
+  include_tasks:
+    file: config.yml
+    apply:
+      tags:
+        - traefik
+        - traefik.config
+
+- name: Trafik Run
+  tags:
+    - traefik
+    - traefik.run
+  include_tasks:
+    file: run.yml
+    apply:
+      tags:
+        - traefik
+        - traefik.run

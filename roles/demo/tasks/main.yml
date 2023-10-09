@@ -2,6 +2,26 @@
 - include_vars: dela_vars.yml
   tags: always
 
+# - name: Print variables for demo
+#   ansible.builtin.debug:
+#     var: DELA_NODES
+#     # var: dela 
+#     #msg: "dela: {{ dela | to_yaml }}"
+#     verbosity: 2
+#   tags:
+#     - dela
+
+# - name: Include dela run task
+#   tags:
+#     - dela
+#     - dela.config
+#   include_tasks:
+#     file: config.yml
+#     apply:
+#       tags:
+#         - dela
+#         - dela.config
+
 - name: Include dela run task
   tags:
     - dela
@@ -18,3 +38,4 @@
     - dela
   include_tasks:
     file: admin.yml
+

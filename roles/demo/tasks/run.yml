@@ -1,29 +1,64 @@
 ---
 
+# - name: Print variables for demo
+#   ansible.builtin.debug:
+#     msg: "item: {{ item.name }}"
+#     verbosity: 2
+#   with_items: "{{ dela.nodes }}"
+#   tags:
+#     - dela
+
 - name: Ensure volumes for dela worker node(s)
   community.docker.docker_volume:
-    name: "dela-worker-{{ item }}-data"
-  with_sequence: 'start=0 count={{ dela.workers_count | int }}'
+    name: "dela-worker-{{ item.name }}-data"
+  with_items: "{{ dela.nodes }}"
 
 - name: Run dela worker node(s)
   community.docker.docker_container:
-    name: dela-worker-{{ item }}
+    name: dela-worker-{{ item.name }}
     container_default_behavior: no_defaults
     hostname: "{{ dela.worker_hostname }}"
     image: "{{ dela.worker_image }}"
     env:
       PROXYKEY: "{{ dela.public_key }}"
-      PROXYPORT: "{{ proxy_port }}"
-      PUBLICPORT: "{{ node_port }}"
+      PROXYPORT: "{{ item.http_port }}"
+      NODEPORT: "{{ item.node_port }}"
       LLVL: info
-    ports:
-      - "{{ proxy_port }}:{{ proxy_port }}"
-      - "{{ node_port }}:{{ node_port }}"
+      PROXY_LOG: info
+      NODE_ENV: production
+      PUBLIC_URL: "https://{{ item.node_host }}:443"
     restart_policy: 'unless-stopped'
     state: started
     volumes:
-      - "dela-worker-{{ item }}-data:/data"
-  with_sequence: 'start=0 count={{ dela.workers_count | int }}'
+      - "dela-worker-{{ item.name }}-data:/data"
+    networks:
+      - name: traefik
+    labels: "{{ labels | get_attr('key', 'val') }}"
+  with_items: "{{ dela.nodes }}"
   vars:
-    proxy_port: "{{ dela.proxy_port | int + item | int }}"
-    node_port: "{{ dela.node_port | int + item | int }}"
+    # Thes stupid ansible only process values and not keys of dictionaries
+    labels:
+      - key: 'traefik.http.services.{{ item.name }}_h.loadbalancer.server.port'
+        val: '{{ item.http_port }}'
+      - key: 'traefik.http.routers.{{ item.name }}_h.rule'
+        val: 'Host("{{ item.http_host }}")'
+      - key: 'traefik.http.routers.{{ item.name }}_h.service'
+        val: '{{ item.name }}_h'
+      - key: 'traefik.http.routers.{{ item.name }}_h.tls'
+        val: 'true'
+
+      - key: 'traefik.http.services.{{ item.name }}_n.loadbalancer.server.port'
+        val: '{{ item.node_port }}'
+      - key: 'traefik.http.services.{{ item.name }}_n.loadbalancer.server.scheme'
+        val: 'h2c'
+      - key: 'traefik.http.routers.{{ item.name }}_n.rule'
+        val: 'Host("{{ item.node_host }}")'
+      - key: 'traefik.http.routers.{{ item.name }}_n.service'
+        val: '{{ item.name }}_n'
+      - key: 'traefik.http.routers.{{ item.name }}_n.tls'
+        val: 'true'
+
+
+
+
+

@@ -1,0 +1,26 @@
+---
+- name: traefik docker network
+  docker_network:
+    tls_hostname: localhost 
+    name: traefik
+
+- name: Ensure traefik containers is running
+  docker_container:
+    published_ports:
+      - "80:80"
+      - "443:443"
+    container_default_behavior: no_defaults
+    tls_hostname: localhost 
+    network_mode: default
+    name: traefik
+    image: traefik:v2.9
+    restart: "{{ traefik_static_config.changed | default(false) or 'traefik.reload' in ansible_run_tags  }}" 
+    restart_policy: 'unless-stopped'
+    state: started
+    volumes: 
+      - "{{ traefik.basedir }}:/etc/traefik"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - name: traefik
+  tags: 
+    - traefik.reload

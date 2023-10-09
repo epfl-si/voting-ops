@@ -16,5 +16,7 @@
 - name: Demo
   hosts: all
   roles:
+    - name: ensure traefik container
+      role: roles/traefik
     - name: setup dela demo
       role: roles/demo

@@ -7,5 +7,6 @@
     command: "memcoin --config /data/node minogrpc join --address {{ dela.join_address }} --token {{ dela.join_token }} --cert-hash {{ dela.join_hash }}"
   # register: result
   tags:
+    - never
     - dela.join
   with_sequence: 'start=0 count={{ dela.workers_count | int }}'  
