@@ -33,32 +33,20 @@
       - "dela-worker-{{ item.name }}-data:/data"
     networks:
       - name: traefik
-    labels: "{{ labels | get_attr('key', 'val') }}"
+    labels: "{{ labels | from_yaml }}"
   with_items: "{{ dela.nodes }}"
   vars:
-    # Thes stupid ansible only process values and not keys of dictionaries
-    labels:
-      - key: 'traefik.http.services.{{ item.name }}_h.loadbalancer.server.port'
-        val: '{{ item.http_port }}'
-      - key: 'traefik.http.routers.{{ item.name }}_h.rule'
-        val: 'Host("{{ item.http_host }}")'
-      - key: 'traefik.http.routers.{{ item.name }}_h.service'
-        val: '{{ item.name }}_h'
-      - key: 'traefik.http.routers.{{ item.name }}_h.tls'
-        val: 'true'
-
-      - key: 'traefik.http.services.{{ item.name }}_n.loadbalancer.server.port'
-        val: '{{ item.node_port }}'
-      - key: 'traefik.http.services.{{ item.name }}_n.loadbalancer.server.scheme'
-        val: 'h2c'
-      - key: 'traefik.http.routers.{{ item.name }}_n.rule'
-        val: 'Host("{{ item.node_host }}")'
-      - key: 'traefik.http.routers.{{ item.name }}_n.service'
-        val: '{{ item.name }}_n'
-      - key: 'traefik.http.routers.{{ item.name }}_n.tls'
-        val: 'true'
-
-
-
-
-
+    # Ansible only pass to jinja only values and not keys of dictionaries
+    # therefore we do it in two steps:
+    # 1. create a yaml string as value hece fully processed by jinja 
+    # 2. pass it to from_yaml filter
+    labels: |
+      traefik.http.services.{{ item.name }}_h.loadbalancer.server.port: "{{ item.http_port }}"
+      traefik.http.routers.{{ item.name }}_h.rule: Host("{{ item.http_host }}")
+      traefik.http.routers.{{ item.name }}_h.service: {{ item.name }}_h
+      traefik.http.routers.{{ item.name }}_h.tls: "true"
+      traefik.http.services.{{ item.name }}_n.loadbalancer.server.port: "{{ item.node_port }}"
+      traefik.http.services.{{ item.name }}_n.loadbalancer.server.scheme: h2c
+      traefik.http.routers.{{ item.name }}_n.rule: Host("{{ item.node_host }}")
+      traefik.http.routers.{{ item.name }}_n.service: {{ item.name }}_n
+      traefik.http.routers.{{ item.name }}_n.tls: "true"
