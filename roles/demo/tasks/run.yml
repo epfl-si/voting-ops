@@ -15,7 +15,7 @@
 
 - name: Run dela worker node(s)
   community.docker.docker_container:
-    name: dela-worker-{{ item.name }}
+    name: "dela-worker-{{ item.name }}"
     container_default_behavior: no_defaults
     hostname: "{{ dela.worker_hostname }}"
     image: "{{ dela.worker_image }}"

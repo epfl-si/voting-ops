@@ -14,7 +14,7 @@
       role: roles/system
 
 - name: Demo
-  hosts: all
+  hosts: dela_nodes
   roles:
     - name: ensure traefik container
       role: roles/traefik

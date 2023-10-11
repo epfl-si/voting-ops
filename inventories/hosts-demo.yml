@@ -1,4 +1,4 @@
-all:
+dela_nodes:
   hosts:
     # itsevoting003.xaas.epfl.ch:
     #   ansible_host: 10.95.96.145
@@ -51,11 +51,14 @@ all:
           http_port: "8080"
           node_host: "evdemo3n.fsd.team"
           node_port: "2000"
-    itsevoting0011.xaas.epfl.ch:
-      ansible_host: 10.95.96.174
-      ansible_port: 22
-      ansible_user: root
+    # itsevoting0011.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.174
+    #   ansible_port: 22
+    #   ansible_user: root
   vars:
+    MASTER_WORKER:
+      host: itsevoting0008.xaas.epfl.ch
+      container: evdemo1
     RUNENV: demo
     DOMAINS:
       - fsd.team

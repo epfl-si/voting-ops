@@ -11,7 +11,7 @@
 #   tags:
 #     - dela
 
-# - name: Include dela run task
+# - name: Include dela config task
 #   tags:
 #     - dela
 #     - dela.config
