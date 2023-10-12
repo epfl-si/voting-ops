@@ -13,10 +13,10 @@
     - name: setup common system requirements
       role: roles/system
 
-- name: Demo
+- name: D-voting Dela Worker Nodes
   hosts: dela_nodes
   roles:
     - name: ensure traefik container
       role: roles/traefik
     - name: setup dela demo
-      role: roles/demo
+      role: roles/dela_node

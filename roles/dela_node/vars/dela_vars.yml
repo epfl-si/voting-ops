@@ -8,3 +8,4 @@ dela:
   join_token: '{{ _secrets.dela_join_token }}'
   join_hash: '{{ _secrets.dela_join_hash }}'
   nodes: '{{ DELA_NODES | default([]) }}'
+  admin_scipers: '{{ _secrets.voting_admin_scipers }}'
