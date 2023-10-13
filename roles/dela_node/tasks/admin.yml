@@ -47,7 +47,6 @@
   community.docker.docker_container_exec:
     container: "dela-worker-{{ MASTER_WORKER.node }}"
     command: "/bin/bash -c 'LLVL=error dvoting --config /data/node ordering setup {{ all_dela_node_config | map('regex_replace','^(.+)$','--member \\1') | join(' ') }}'"
-  with_items: "{{ dela.nodes }}"
   when: inventory_hostname == MASTER_WORKER.host
   tags:
     - never
