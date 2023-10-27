@@ -73,4 +73,7 @@ dela_nodes:
 dvoting_web:
   hosts:
     itsevoting0008.xaas.epfl.ch:
-      http_host: "evdemo.fsd.team"
+      
+  vars:
+    frontend_host: "dvoting.fsd.team"
+    dela_node_url: "htps://evdemo1.fsd.team"

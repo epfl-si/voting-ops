@@ -1,0 +1,63 @@
+---
+
+- name: backend docker network
+  community.general.docker_network:
+    # tls_hostname: localhost 
+    name: backend
+
+
+- name: Run database server
+  community.docker.docker_container:
+    name: "postgres"
+    hostname: "postgres"
+    container_default_behavior: no_defaults
+    image: "postgres:15"
+    env:
+      POSTGRES_USER: "{{ _secrets.db_username }}"
+      POSTGRES_PASSWORD: "{{ _secrets.db_password }}"
+    restart_policy: 'unless-stopped'
+    state: started
+    volumes:
+      - "dvoting-database-data:/var/lib/postgresql/data"
+      - "/srv/dvoting/init.sql:/docker-entrypoint-initdb.d/init.sql"
+    networks:
+      - name: backend
+
+- name: Run backend web service
+  community.docker.docker_container:
+    name: "backend"
+    hostname: "backend"
+    container_default_behavior: no_defaults
+    image: ghcr.io/c4dt/d-voting-backend:latest
+    env:
+      DATABASE_USERNAME: "{{ _secrets.db_username }}"
+      DATABASE_PASSWORD: "{{ _secrets.db_password }}"
+      DATABASE_HOST: "postgres"
+      DATABASE_PORT: "5432"
+      DB_PATH: "/data/dvoting"
+      FRONT_END_URL: "{{ dvoting.frontend_url }}"
+      DELA_NODE_URL: "{{ dela_node_url }}"
+      SESSION_SECRET: "{{ _secrets.dvoting_session_secret }}"
+      PUBLIC_KEY: "{{ _secrets.PUBLIC_KEY }}"
+      PRIVATE_KEY: "{{ _secrets.PRIVATE_KEY }}"
+    networks:
+      - name: backend
+
+- name: Run frontend web service
+  community.docker.docker_container:
+    name: "frontend"
+    hostname: "frontend"
+    container_default_behavior: no_defaults
+    image: ghcr.io/c4dt/d-voting-frontend:latest
+    env:
+      BACKEND_HOST: "backend"
+      BACKEND_PORT: "5000"
+    labels:
+      traefik.http.services.dvoting_frontend.loadbalancer.server.port: "3000"
+      traefik.http.routers.dvoting.rule: Host("{{ dvoting.frontend_host }}")
+      traefik.http.routers.dvoting.service: dvoting_frontend
+      traefik.http.routers.dvoting.tls: "true"
+    networks:
+      - name: backend
+      - name: traefik
+

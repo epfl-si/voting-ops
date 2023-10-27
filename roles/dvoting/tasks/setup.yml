@@ -1,0 +1,20 @@
+---
+
+- name: Ensure volumes for database and backend web server
+  community.docker.docker_volume:
+    name: "dvoting-{{ item }}-data"
+  with_items: 
+    - database
+    - backend
+
+- name: Ensure directory for database init file
+  ansible.builtin.file:
+    state: directory
+    path: /srv/dvoting
+    mode: "755"
+
+- name: Database init file
+  ansible.builtin.template:
+    src: init.sql
+    dest: /srv/dvoting/init.sql
+    mode: "644"

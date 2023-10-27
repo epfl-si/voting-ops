@@ -1,0 +1,27 @@
+---
+
+- include_vars: dvoting_vars.yml
+  tags: always
+  
+- name: Include dvoting setup task
+  tags:
+    - dvoting
+    - dvoting.setup
+  include_tasks:
+    file: setup.yml
+    apply:
+      tags:
+        - dvoting
+        - dvoting.setup
+
+- name: Include dvoting run task
+  tags:
+    - dvoting
+    - dvoting.run
+  include_tasks:
+    file: run.yml
+    apply:
+      tags:
+        - dvoting
+        - dvoting.run
+

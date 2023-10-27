@@ -12,7 +12,7 @@ http:
       entrypoints:
         - https
         - http
-      rule: "PathPrefix(`/dashboard`)"
+      rule: Host(`{{ TRAEFIK_CONSOLE_HOSTNAME | default(inventory_hostname) }}`) && PathPrefix(`/dashboard`)
       service: dashboard@internal
       middlewares:
         - debugonly-dashboard-redirect

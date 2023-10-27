@@ -1,0 +1,5 @@
+---
+dvoting:
+  admin_scipers: '{{ _secrets.voting_admin_scipers }}'
+  frontend_host: '{{ frontend_host | default("dvoting.epfl.ch") }}'
+  frontend_url: 'https://{{ frontend_host | default("dvoting.epfl.ch") }}'

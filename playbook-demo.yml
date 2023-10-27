@@ -20,3 +20,11 @@
       role: roles/traefik
     - name: setup dela demo
       role: roles/dela_node
+
+- name: D-voting web front/backend
+  hosts: dvoting_web
+  roles:
+    - name: ensure traefik container
+      role: roles/traefik
+    - name: dvoding web server
+      role: roles/dvoting

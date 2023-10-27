@@ -1,11 +1,11 @@
 ---
 - name: traefik docker network
-  docker_network:
+  community.general.docker_network:
     tls_hostname: localhost 
     name: traefik
 
 - name: Ensure traefik containers is running
-  docker_container:
+  community.general.docker_container:
     published_ports:
       - "80:80"
       - "443:443"
