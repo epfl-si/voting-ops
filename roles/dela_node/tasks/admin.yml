@@ -67,7 +67,7 @@
     - dela.join
     - dela.join_preview
 
-- name: Set dela node public keys as fact
+- name: Set dela node public keys as fact for current host
   ansible.builtin.set_fact:
     dela_node_keys: "{{ node_keys.results | map(attribute='stdout') | list }}"
   tags:
@@ -84,20 +84,17 @@
     - dela.join
     - dela.join_preview
 
-
-- name: debug
+- name: debug all_dela_node_keys
   ansible.builtin.debug:
-    msg: "node: {{ item[0] }} add key {{ item[1] }}"
-  loop: "{{ dela.nodes | map(attribute='name') | product(all_dela_node_keys) }}"
+    msg: "{{ all_dela_node_keys }}"
   tags:
     - never
     - dela.join
     - dela.join_preview
 
-
-- name: debug
+- name: debug preview add keys of all nodes
   ansible.builtin.debug:
-    msg: "node: {{ item[0] }} add key {{ item[1] }}"
+    msg: "container: {{ item[0] }} add key {{ item[1] }}"
   loop: "{{ dela.nodes | map(attribute='name') | product(all_dela_node_keys) }}"
   tags:
     - never

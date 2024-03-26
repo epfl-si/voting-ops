@@ -3,7 +3,7 @@
 - include_vars: dvoting_vars.yml
   tags: always
   
-- name: Include dvoting setup task
+- name: Include dvoting setup tasks
   tags:
     - dvoting
     - dvoting.setup
@@ -14,7 +14,7 @@
         - dvoting
         - dvoting.setup
 
-- name: Include dvoting run task
+- name: Include dvoting run tasks
   tags:
     - dvoting
     - dvoting.run
@@ -24,4 +24,24 @@
       tags:
         - dvoting
         - dvoting.run
+
+- name: Include configuration tasks
+  tags:
+    - dvoting
+    - dvoting.config
+  include_tasks:
+    file: config.yml
+    apply:
+      tags:
+        - dvoting
+        - dvoting.config
+
+- name: Include dela admin tasks
+  tags:
+    - dvoting
+  include_tasks:
+    file: admin.yml
+    apply:
+      tags:
+        - never
 

@@ -24,7 +24,7 @@
         - traefik
         - traefik.config
 
-- name: Trafik Run
+- name: Traefik Run
   tags:
     - traefik
     - traefik.run

@@ -33,6 +33,7 @@
   docker_image:
     name: "{{ item }}"
     state: absent
+    force_absent: true
   loop: "{{ docker_info.images | map(attribute='Id') | list }}"
 
 - name: "Cleanup docker ============================== !!!!"

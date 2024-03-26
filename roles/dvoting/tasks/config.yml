@@ -1,0 +1,7 @@
+- name: Configure app administrators
+  community.docker.docker_container_exec:
+    container: "backend"
+    command: "npx cli addAdmin --sciper {{ item }}"
+  with_items: "{{ dvoting.admin_scipers }}"
+  notify: reload backend
+  

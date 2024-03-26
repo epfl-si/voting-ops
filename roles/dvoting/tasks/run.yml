@@ -54,9 +54,9 @@
       BACKEND_PORT: "5000"
     labels:
       traefik.http.services.dvoting_frontend.loadbalancer.server.port: "3000"
-      traefik.http.routers.dvoting.rule: Host("{{ dvoting.frontend_host }}")
-      traefik.http.routers.dvoting.service: dvoting_frontend
-      traefik.http.routers.dvoting.tls: "true"
+      traefik.http.routers.dvoting_frontend.rule: Host("{{ dvoting.frontend_host }}")
+      traefik.http.routers.dvoting_frontend.service: dvoting_frontend
+      traefik.http.routers.dvoting_frontend.tls: "true"
     networks:
       - name: backend
       - name: traefik

@@ -38,4 +38,7 @@
     - dela
   include_tasks:
     file: admin.yml
+    apply:
+      tags:
+        - never
 

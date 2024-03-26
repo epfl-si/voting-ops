@@ -21,12 +21,12 @@ ensure_ansible () {
   if ! test -f ansible-deps-cache/.versions 2>/dev/null; then
     curl https://raw.githubusercontent.com/epfl-si/ansible.suitcase/master/install.sh | \
     SUITCASE_DIR=$PWD/ansible-deps-cache \
-    SUITCASE_ANSIBLE_VERSION=3.4.0 \
+    SUITCASE_ANSIBLE_VERSION=9.3.0 \
     bash -x
   fi
   export PATH="$PWD/ansible-deps-cache/bin:$PATH"
   export ANSIBLE_ROLES_PATH="$PWD/ansible-deps-cache/roles"
-  export ANSIBLE_COLLECTIONS_PATHS="$PWD/ansible-deps-cache"
+  export ANSIBLE_COLLECTIONS_PATH="$PWD/ansible-deps-cache"
 
   . ansible-deps-cache/lib.sh
 }

@@ -1,0 +1,5 @@
+- name: reload backend
+  community.docker.docker_container:
+    name: "backend"
+    hostname: "backend"
+    restart: "true"
