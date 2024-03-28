@@ -10,3 +10,6 @@ for i in $(seq 1 4); do
   curl -sk "$FRONT_END_URL/api/proxies/" -X POST -H 'Content-Type: application/json' -b cookies.txt --data "{\"NodeAddr\":\"https://evdemo${i}n.fsd.team:443\",\"Proxy\":\"https://evdemo${i}.fsd.team\"}"
   echo - for proxy $i
 done
+
+rm cookies.txt
+
