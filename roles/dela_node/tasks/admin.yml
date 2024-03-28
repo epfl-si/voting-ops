@@ -5,7 +5,7 @@
 
 # ---------------------------------------------------------- node configurations
 
-- name: Read dela node configuration
+- name: Read dela node configuration (file 2-export-key.sh by Linus)
   community.docker.docker_container_exec:
     container: "dela-worker-{{ item.name }}"
     command: "/bin/bash -c 'LLVL=error dvoting --config /data/node ordering export'"
@@ -24,7 +24,7 @@
     - dela.join
     - dela.join_preview
 
-- name: gather dela_node_config
+- name: Gather dela node configuration from all nodes / hosts (all_dela_node_config)
   ansible.builtin.set_fact:
     all_dela_node_config: "{{ groups['dela_nodes'] | map('extract', hostvars, 'dela_node_config') | list | flatten }}"
   when: inventory_hostname == MASTER_WORKER.host
@@ -33,17 +33,17 @@
     - dela.join
     - dela.join_preview
 
-
-- name: all_dela_node_config
+- name: Debug write the command for importing nodes to master node
   ansible.builtin.debug:
-    msg: "{{ all_dela_node_config | map('regex_replace','^(.+)$','--member \\1') | join(' ') }}"
+    msg: "dvoting --config /data/node ordering setup {{ all_dela_node_config | map('regex_replace','^(.+)$','--member \\1') | join(' ') }}"
   when: inventory_hostname == MASTER_WORKER.host
   tags:
     - never
     - dela.join
     - dela.join_preview
 
-- name: configure 
+
+- name: Add all nodes to the config configure (script 3-setup-members.sh by Linus)
   community.docker.docker_container_exec:
     container: "dela-worker-{{ MASTER_WORKER.node }}"
     command: "/bin/bash -c 'LLVL=error dvoting --config /data/node ordering setup {{ all_dela_node_config | map('regex_replace','^(.+)$','--member \\1') | join(' ') }}'"
@@ -56,7 +56,7 @@
 
 # docker-compose exec dela-worker crypto bls signer read --path /data/node/private.key --format BASE64_PUBKEY
 
-- name: Read node public key
+- name: Read node public key (script 4-get-identity.sh by Linus)
   community.docker.docker_container_exec:
     container: "dela-worker-{{ item.name }}"
     command: "/bin/bash -c 'crypto bls signer read --path /data/node/private.key --format BASE64_PUBKEY'"
@@ -102,7 +102,7 @@
     - dela.join_preview
 
 
-- name: add keys of all nodes
+- name: add keys of all nodes to all nodes (script 5-authorize-identities.sh by Linus)
   community.docker.docker_container_exec:
     container: "dela-worker-{{ item[0] }}"
     command: "/bin/bash -c 'LLVL=error dvoting --config /data/node access add --identity {{ item[1] }}'"
@@ -112,12 +112,48 @@
     - dela.join
 
 
-- name: configure voting pool on master node
+- name: configure voting pool on master node (script 6-update-access-contract.sh by Linus)
   community.docker.docker_container_exec:
     container: "dela-worker-{{ MASTER_WORKER.node }}"
-    command: "/bin/bash -c 'LLVL=error dvoting --config /data/node pool add --key /data/node/private.key --args github.com/c4dt/dela.ContractArg --args github.com/c4dt/dela.Access --args access:grant_id --args 0300000000000000000000000000000000000000000000000000000000000000 --args access:grant_contract --args github.com/c4dt/dela.Evoting --args access:grant_command --args all --args access:command --args GRANT --args access:identity --args {{ item }}'"
+    command: >
+      /bin/bash -c '
+        LLVL=error 
+        dvoting 
+        --config /data/node pool add 
+        --key /data/node/private.key 
+        --args github.com/c4dt/dela.ContractArg
+        --args github.com/c4dt/dela.Access
+        --args access:grant_id
+        --args {{ dela.grant_id }}
+        --args access:grant_contract
+        --args github.com/c4dt/dela.Evoting
+        --args access:grant_command
+        --args all
+        --args access:identity
+        --args {{ item }}
+        --args access:command
+        --args GRANT
+      '
   with_items: "{{ all_dela_node_keys }}"
   when: inventory_hostname == MASTER_WORKER.host
   tags:
     - never
     - dela.join
+
+
+
+# TODO: this does not work yet
+# - name: configure proxy (script 7-add-proxy.sh by Linus)
+#   when: inventory_hostname == MASTER_WORKER.host
+#   ansible.builtin.shell:
+#     cmd: >
+#       curl -k "{{ dela.frontend_url }}/api/get_dev_login/{{ dela.admin_scipers[0] }}" -c /tmp/cookies.txt -o /dev/null -s
+#       curl -sk "{{ dela.frontend_url }}/api/proxies/" -X POST -H 'Content-Type: application/json' -b /tmp/cookies.txt --data "{\"NodeAddr\":\"https://node.{{ item.node_host }}:443\",\"Proxy\":\"https://{{ item.http_host }}\"}"
+#       rm /tmp/cookies.txt
+#   loop: "{{ dela.nodes }}"
+#   delegate_to: localhost
+#   tags:
+#     - never
+#     - dela.join
+#     - dela.stranezza
+

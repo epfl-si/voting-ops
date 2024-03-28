@@ -1,9 +1,9 @@
 ---
 
-- name: backend docker network
-  community.general.docker_network:
-    # tls_hostname: localhost 
-    name: backend
+# - name: backend docker network
+#   community.general.docker_network:
+#     # tls_hostname: localhost 
+#     name: backend
 
 
 - name: Run database server
@@ -20,8 +20,8 @@
     volumes:
       - "dvoting-database-data:/var/lib/postgresql/data"
       - "/srv/dvoting/init.sql:/docker-entrypoint-initdb.d/init.sql"
-    networks:
-      - name: backend
+    # networks:
+    #   - name: backend
 
 - name: Run backend web service
   community.docker.docker_container:
@@ -40,8 +40,8 @@
       SESSION_SECRET: "{{ _secrets.dvoting_session_secret }}"
       PUBLIC_KEY: "{{ _secrets.PUBLIC_KEY }}"
       PRIVATE_KEY: "{{ _secrets.PRIVATE_KEY }}"
-    networks:
-      - name: backend
+    # networks:
+    #   - name: backend
 
 - name: Run frontend web service
   community.docker.docker_container:
@@ -57,7 +57,7 @@
       traefik.http.routers.dvoting_frontend.rule: Host("{{ dvoting.frontend_host }}")
       traefik.http.routers.dvoting_frontend.service: dvoting_frontend
       traefik.http.routers.dvoting_frontend.tls: "true"
-    networks:
-      - name: backend
-      - name: traefik
+    # networks:
+    #   - name: backend
+    #   - name: traefik
 

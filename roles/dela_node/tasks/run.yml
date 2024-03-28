@@ -31,22 +31,28 @@
     state: started
     volumes:
       - "dela-worker-{{ item.name }}-data:/data"
-    networks:
-      - name: traefik
+    # networks:
+    #   - name: traefik
     labels: "{{ labels | from_yaml }}"
   with_items: "{{ dela.nodes }}"
   vars:
     # Ansible only pass to jinja only values and not keys of dictionaries
     # therefore we do it in two steps:
-    # 1. create a yaml string as value hece fully processed by jinja 
+    # 1. create a yaml string as value hence fully processed by jinja 
     # 2. pass it to from_yaml filter
     labels: |
       traefik.http.services.{{ item.name }}_h.loadbalancer.server.port: "{{ item.http_port }}"
+      traefik.http.services.{{ item.name }}_h.loadbalancer.server.scheme: http
       traefik.http.routers.{{ item.name }}_h.rule: Host("{{ item.http_host }}")
       traefik.http.routers.{{ item.name }}_h.service: {{ item.name }}_h
+      traefik.http.routers.{{ item.name }}_h.entryPoints: https
       traefik.http.routers.{{ item.name }}_h.tls: "true"
+      traefik.http.routers.{{ item.name }}_h.priority: "500"
+
       traefik.http.services.{{ item.name }}_n.loadbalancer.server.port: "{{ item.node_port }}"
       traefik.http.services.{{ item.name }}_n.loadbalancer.server.scheme: h2c
       traefik.http.routers.{{ item.name }}_n.rule: Host("{{ item.node_host }}")
       traefik.http.routers.{{ item.name }}_n.service: {{ item.name }}_n
+      traefik.http.routers.{{ item.name }}_n.entryPoints: https
       traefik.http.routers.{{ item.name }}_n.tls: "true"
+      traefik.http.routers.{{ item.name }}_n.priority: "1000"

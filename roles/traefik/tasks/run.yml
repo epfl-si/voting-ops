@@ -1,8 +1,8 @@
 ---
-- name: traefik docker network
-  community.general.docker_network:
-    tls_hostname: localhost 
-    name: traefik
+# - name: traefik docker network
+#   community.general.docker_network:
+#     tls_hostname: localhost 
+#     name: traefik
 
 - name: Ensure traefik containers is running
   community.general.docker_container:
@@ -20,7 +20,7 @@
     volumes: 
       - "{{ traefik.basedir }}:/etc/traefik"
       - "/var/run/docker.sock:/var/run/docker.sock"
-    networks:
-      - name: traefik
+    # networks:
+    #   - name: traefik
   tags: 
     - traefik.reload

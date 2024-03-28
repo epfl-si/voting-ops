@@ -20,15 +20,21 @@ to setup and enables fast setup of a nice test bed.
 Start by resetting everything on the demo target machines:
 
 ```bash
-./votsible.sh --demo -t reset -t reset_docker_yes_yes_please
+./votsible.sh --demo -t reset -t reset_docker_yes_yes_please -t yes_please_reset_docker_volumes_too
 ```
 
-Then the installation:
-```bash
-./votsible.sh --demo -t dela
-./votsible.sh --demo -t dela.run
-./votsible.sh --demo -t dela -t dela.join
+The installation in steps:
+ 1. install traefik
+ 2. install and start all conodes
+ 3. configure the node network by exchanging the node configs and keys
+ 4. install and configure the web interface
 
+
+```bash
+./votsible.sh --demo -t traefik
+./votsible.sh --demo -t dela
+./votsible.sh --demo -t dela -t dela.join
+./votsible.sh --demo -t dvoting
 ```
 
 ### Debugging

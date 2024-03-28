@@ -46,3 +46,12 @@
     networks: true
     volumes: true
     builder_cache: true
+
+# TODO: find a more comunity.docker style way of doing this!
+- name: "Remove all volumes ============================== !!!!"
+  tags:
+    - never
+    - yes_please_reset_docker_volumes_too
+  ansible.builtin.shell:
+    cmd: docker volume ls -q | xargs docker volume rm
+

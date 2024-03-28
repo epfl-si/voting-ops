@@ -39,4 +39,8 @@
     - reset
   include_tasks:
     file: reset.yml
+    apply:
+      tags:
+        - never
+        - reset
 

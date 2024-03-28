@@ -2,6 +2,21 @@
 - include_vars: dela_vars.yml
   tags: always
 
+
+- name: debug groups['dela_nodes'] etc
+  ansible.builtin.debug:
+    msg: "{{ groups['dela_nodes'] }}"
+  tags:
+    - never
+    - dela.debug
+
+- name: debug dela.nodes
+  ansible.builtin.debug:
+    msg: "{{ dela.nodes }}"
+  tags:
+    - never
+    - dela.debug
+
 # - name: Print variables for demo
 #   ansible.builtin.debug:
 #     var: DELA_NODES
@@ -36,9 +51,10 @@
 - name: Include dela admin task
   tags:
     - dela
+    - dela.join
+    - dela.join_preview
   include_tasks:
     file: admin.yml
     apply:
       tags:
         - never
-
