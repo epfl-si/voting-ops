@@ -20,7 +20,7 @@
     hostname: "{{ dela.worker_hostname }}"
     image: "{{ dela.worker_image }}"
     env:
-      PROXYKEY: "{{ dela.public_key }}"
+      PROXYKEY: "{{ _secrets.PUBLIC_KEY }}"
       PROXYPORT: "{{ item.http_port }}"
       NODEPORT: "{{ item.node_port }}"
       LLVL: info
@@ -31,8 +31,8 @@
     state: started
     volumes:
       - "dela-worker-{{ item.name }}-data:/data"
-    # networks:
-    #   - name: traefik
+    networks:
+      - name: traefik
     labels: "{{ labels | from_yaml }}"
   with_items: "{{ dela.nodes }}"
   vars:

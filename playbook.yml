@@ -1,4 +1,5 @@
 ---
+
 - name: Setup memcoin node
   hosts: conodes
   gather_facts: no

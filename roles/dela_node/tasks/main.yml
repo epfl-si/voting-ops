@@ -1,8 +1,4 @@
 ---
-- include_vars: dela_vars.yml
-  tags: always
-
-
 - name: debug groups['dela_nodes'] etc
   ansible.builtin.debug:
     msg: "{{ groups['dela_nodes'] }}"

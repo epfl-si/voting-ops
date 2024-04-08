@@ -2,7 +2,6 @@
 
 # - name: backend docker network
 #   community.general.docker_network:
-#     # tls_hostname: localhost 
 #     name: backend
 
 
@@ -20,8 +19,8 @@
     volumes:
       - "dvoting-database-data:/var/lib/postgresql/data"
       - "/srv/dvoting/init.sql:/docker-entrypoint-initdb.d/init.sql"
-    # networks:
-    #   - name: backend
+    networks:
+      - name: traefik
 
 - name: Run backend web service
   community.docker.docker_container:
@@ -37,11 +36,14 @@
       DB_PATH: "/data/dvoting"
       FRONT_END_URL: "{{ dvoting.frontend_url }}"
       DELA_NODE_URL: "{{ dela_node_url }}"
+      DELA_PROXY_URL: "{{ dela_proxy_url }}"
       SESSION_SECRET: "{{ _secrets.dvoting_session_secret }}"
       PUBLIC_KEY: "{{ _secrets.PUBLIC_KEY }}"
       PRIVATE_KEY: "{{ _secrets.PRIVATE_KEY }}"
-    # networks:
-    #   - name: backend
+      REACT_APP_DEV_LOGIN: "{{ 'false' if RUNENV == 'prod' else 'true' }}"
+      REACT_APP_RANDOMIZE_VOTE_ID: "{{ 'false' if RUNENV == 'prod' else 'true' }}"
+    networks:
+      - name: traefik
 
 - name: Run frontend web service
   community.docker.docker_container:
@@ -50,6 +52,7 @@
     container_default_behavior: no_defaults
     image: ghcr.io/c4dt/d-voting-frontend:latest
     env:
+      FRONT_END_URL: "{{ dvoting.frontend_url }}"
       BACKEND_HOST: "backend"
       BACKEND_PORT: "5000"
     labels:
@@ -57,7 +60,7 @@
       traefik.http.routers.dvoting_frontend.rule: Host("{{ dvoting.frontend_host }}")
       traefik.http.routers.dvoting_frontend.service: dvoting_frontend
       traefik.http.routers.dvoting_frontend.tls: "true"
-    # networks:
-    #   - name: backend
-    #   - name: traefik
+    networks:
+      - name: traefik
+      # - name: default
 

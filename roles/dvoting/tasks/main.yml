@@ -1,8 +1,4 @@
 ---
-
-- include_vars: dvoting_vars.yml
-  tags: always
-  
 - name: Include dvoting setup tasks
   tags:
     - dvoting

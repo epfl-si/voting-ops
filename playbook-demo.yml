@@ -3,8 +3,15 @@
   hosts: all
   tags: debug
   tasks:
-    - debug:
+    - ansible.builtin.debug:
         msg: "Secrets: {{ _secrets | to_yaml }}"
+
+- name: Debug write groups['dela_nodes']
+  hosts: all
+  tags: debug
+  tasks:
+    - ansible.builtin.debug:
+        msg: "{{ groups['dela_nodes'] }}"
 
 - name: System
   hosts: all

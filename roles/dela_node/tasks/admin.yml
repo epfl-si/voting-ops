@@ -111,28 +111,27 @@
     - never
     - dela.join
 
-
 - name: configure voting pool on master node (script 6-update-access-contract.sh by Linus)
   community.docker.docker_container_exec:
     container: "dela-worker-{{ MASTER_WORKER.node }}"
     command: >
-      /bin/bash -c '
-        LLVL=error 
-        dvoting 
-        --config /data/node pool add 
-        --key /data/node/private.key 
-        --args github.com/c4dt/dela.ContractArg
-        --args github.com/c4dt/dela.Access
-        --args access:grant_id
-        --args {{ dela.grant_id }}
-        --args access:grant_contract
-        --args github.com/c4dt/dela.Evoting
-        --args access:grant_command
-        --args all
-        --args access:identity
-        --args {{ item }}
-        --args access:command
-        --args GRANT
+      /bin/bash -c ' \
+        LLVL=error \
+        dvoting \
+        --config /data/node pool add \
+        --key /data/node/private.key \
+        --args github.com/c4dt/dela.ContractArg \
+        --args github.com/c4dt/dela.Access \
+        --args access:grant_id \
+        --args {{ dela.grant_id }} \
+        --args access:grant_contract \
+        --args github.com/c4dt/dela.Evoting \
+        --args access:grant_command \
+        --args all \
+        --args access:identity \
+        --args {{ item }} \
+        --args access:command \
+        --args GRANT \
       '
   with_items: "{{ all_dela_node_keys }}"
   when: inventory_hostname == MASTER_WORKER.host

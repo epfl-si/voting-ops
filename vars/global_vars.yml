@@ -7,3 +7,21 @@ _all_secrets: "{{ lookup('file', keybase_path + '/secrets.yml') | from_yaml }}"
 _secrets: "{{ _all_secrets[RUNENV] }}"
 
 INSTALL_DIR: /home/ubuntu
+
+dela:
+  public_key: '{{ _secrets.dela_public_key | default("7a97bfc968c74fbf0553fdec1a97d8265bd3a32e31edd61e296ea701a009147e") }}'
+  worker_image: '{{ DELA_IMAGE_URL | default("ghcr.io/c4dt/d-voting-dela:latest") }}'
+  worker_hostname: '{{ DELA_WORKER_HOSTNAME | default(inventory_hostname) }}'
+  join_address: '{{ _secrets.dela_join_address }}'
+  join_token: '{{ _secrets.dela_join_token }}'
+  join_hash: '{{ _secrets.dela_join_hash }}'
+  nodes: '{{ DELA_NODES | default([]) }}'
+  admin_scipers: '{{ _secrets.voting_admin_scipers }}'
+  grant_id: '45564f54'
+  # TODO DRY
+  frontend_url: 'https://{{ frontend_host | default("dvoting.epfl.ch") }}'
+
+dvoting:
+  admin_scipers: '{{ _secrets.voting_admin_scipers }}'
+  frontend_host: '{{ frontend_host | default("dvoting.epfl.ch") }}'
+  frontend_url: 'https://{{ frontend_host | default("dvoting.epfl.ch") }}'
