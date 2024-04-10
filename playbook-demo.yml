@@ -1,4 +1,11 @@
 ---
+
+- name: Debug write the command for importing nodes to master node
+  hosts: all
+  tasks:
+    - ansible.builtin.debug:
+        msg: "RUNENV: {{ RUNENV }} -> randomize_vote_id: {{ 'yes' if dvoting.randomize_vote_id == 'true' else 'no' }}   devlogin: {{ 'yes' if dvoting.devlogin == 'true' else 'no' }}"
+
 - name: System
   hosts: all
   roles: 

@@ -40,9 +40,8 @@
       SESSION_SECRET: "{{ _secrets.dvoting_session_secret }}"
       PUBLIC_KEY: "{{ _secrets.PUBLIC_KEY }}"
       PRIVATE_KEY: "{{ _secrets.PRIVATE_KEY }}"
-      # REACT_APP_DEV_LOGIN: 'false'
-      REACT_APP_DEV_LOGIN: "{{ 'false' if RUNENV == 'prod' else 'true' }}"
-      REACT_APP_RANDOMIZE_VOTE_ID: "{{ 'false' if RUNENV == 'prod' else 'true' }}"
+      REACT_APP_DEV_LOGIN: "{{ dvoting.devlogin }}"
+      REACT_APP_RANDOMIZE_VOTE_ID: "{{ dvoting.randomize_vote_id }}"
     networks:
       - name: traefik
 
