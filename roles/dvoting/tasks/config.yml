@@ -1,3 +1,4 @@
+# addAdmin is already idempontent
 - name: Configure app administrators (file 1-add_admin.sh by Linus)
   community.docker.docker_container_exec:
     container: "backend"

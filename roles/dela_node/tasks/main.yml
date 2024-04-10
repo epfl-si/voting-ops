@@ -13,25 +13,16 @@
     - never
     - dela.debug
 
-# - name: Print variables for demo
-#   ansible.builtin.debug:
-#     var: DELA_NODES
-#     # var: dela 
-#     #msg: "dela: {{ dela | to_yaml }}"
-#     verbosity: 2
-#   tags:
-#     - dela
-
-# - name: Include dela config task
-#   tags:
-#     - dela
-#     - dela.config
-#   include_tasks:
-#     file: config.yml
-#     apply:
-#       tags:
-#         - dela
-#         - dela.config
+- name: Include dela setup task
+  tags:
+    - dela
+    - dela.setup
+  include_tasks:
+    file: setup.yml
+    apply:
+      tags:
+        - dela
+        - dela.setup
 
 - name: Include dela run task
   tags:
@@ -44,11 +35,22 @@
         - dela
         - dela.run
 
-- name: Include dela admin task
+- name: Include dela config task
   tags:
     - dela
-    - dela.join
+    - dela.config
+  include_tasks:
+    file: config.yml
+    apply:
+      tags:
+        - dela
+        - dela.config
+
+- name: Include dela admin task
+  tags:
     - dela.join_preview
+    - dela.join
+    - dela.manual_join
   include_tasks:
     file: admin.yml
     apply:

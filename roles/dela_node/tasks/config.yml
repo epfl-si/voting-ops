@@ -1,0 +1,47 @@
+# -------------------------------------------------------------------- node keys
+
+- name: Read dela node keys (file 2-export-key.sh by Linus)
+  community.docker.docker_container_exec:
+    container: "dela-worker-{{ item.name }}"
+    command: "/bin/bash -c 'LLVL=error dvoting --config /data/node ordering export'"
+  with_items: "{{ dela.nodes }}"
+  register: nodes_config
+
+- name: Set dela node keys as fact
+  ansible.builtin.set_fact:
+    dela_node_config: "{{ nodes_config.results | map(attribute='stdout') | list }}"
+
+- name: Gather dela node keys from all nodes / hosts (all_dela_node_config)
+  ansible.builtin.set_fact:
+    all_dela_node_config: "{{ groups['dela_nodes'] | map('extract', hostvars, 'dela_node_config') | list | flatten }}"
+  when: inventory_hostname == MASTER_WORKER.host
+
+- name: Maintain a file with all keys
+  ansible.builtin.template:
+    src: keys
+    dest: "{{ dela.init_dir }}/keys"
+  when: inventory_hostname == MASTER_WORKER.host
+
+
+# --------------------------------------------------------------------- node ids
+
+- name: Read node ids (script 4-get-identity.sh by Linus)
+  community.docker.docker_container_exec:
+    container: "dela-worker-{{ item.name }}"
+    command: "/bin/bash -c 'crypto bls signer read --path /data/node/private.key --format BASE64_PUBKEY'"
+  with_items: "{{ dela.nodes }}"
+  register: node_keys
+
+- name: Set dela node ids as fact for current host
+  ansible.builtin.set_fact:
+    dela_node_keys: "{{ node_keys.results | map(attribute='stdout') | list }}"
+
+
+- name: gather all dela node ids
+  ansible.builtin.set_fact:
+    all_dela_node_keys: "{{ groups['dela_nodes'] | map('extract', hostvars, 'dela_node_keys') | list | flatten }}"
+
+- name: Maintain a file with all ids
+  ansible.builtin.template:
+    src: ids
+    dest: "{{ dela.init_dir }}/ids"

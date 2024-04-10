@@ -1,0 +1,3 @@
+{% for k in all_dela_node_keys %}
+{{ k }}
+{% endfor %}

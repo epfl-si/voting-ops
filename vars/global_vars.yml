@@ -20,8 +20,11 @@ dela:
   grant_id: '45564f54'
   # TODO DRY
   frontend_url: 'https://{{ frontend_host | default("dvoting.epfl.ch") }}'
+  basedir: "/srv/dela_{{ RUNENV }}"
+  init_dir: "/srv/dela_{{ RUNENV }}/init"
 
 dvoting:
+  basedir: "/srv/dvoting"
   admin_scipers: '{{ _secrets.voting_admin_scipers }}'
   frontend_host: '{{ frontend_host | default("dvoting.epfl.ch") }}'
   frontend_url: 'https://{{ frontend_host | default("dvoting.epfl.ch") }}'

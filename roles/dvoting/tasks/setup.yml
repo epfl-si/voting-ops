@@ -10,11 +10,11 @@
 - name: Ensure directory for database init file
   ansible.builtin.file:
     state: directory
-    path: /srv/dvoting
+    path: "{{ dvoting.basedir }}"
     mode: "755"
 
 - name: Database init file
   ansible.builtin.template:
     src: init.sql
-    dest: /srv/dvoting/init.sql
+    dest: "{{ dvoting.basedir }}/init.sql"
     mode: "644"

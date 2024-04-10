@@ -1,0 +1,26 @@
+- name: Ensure directory for manual init files
+  ansible.builtin.file:
+    state: directory
+    path: "{{ dela.init_dir }}"
+    mode: "755"
+
+- name: Ensure 3-setup-members from Linus scripts
+  ansible.builtin.template:
+    src: 3-setup-members.sh
+    dest: "{{ dela.init_dir }}/3-setup-members.sh"
+    mode: "755"
+  when: inventory_hostname == MASTER_WORKER.host
+
+- name: Ensure 5-authorize-identities from Linus scripts
+  ansible.builtin.template:
+    src: 5-authorize-identities.sh
+    dest: "{{ dela.init_dir }}/5-authorize-identities.sh"
+    mode: "755"
+
+- name: Ensure 6-update-access-contract from Linus scripts
+  ansible.builtin.template:
+    src: 6-update-access-contract.sh
+    dest: "{{ dela.init_dir }}/6-update-access-contract.sh"
+    mode: "755"
+  when: inventory_hostname == MASTER_WORKER.host
+

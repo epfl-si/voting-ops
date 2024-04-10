@@ -46,11 +46,6 @@ dela_nodes:
           http_port: "8080"
           node_host: "evdemo1n.fsd.team"
           node_port: "2000"
-        - name: "evdemo4"
-          http_host: "evdemo4.fsd.team"
-          http_port: "8080"
-          node_host: "evdemo4n.fsd.team"
-          node_port: "2000"
       TRAEFIK_CONSOLE_HOSTNAME: evtraefik.fsd.team
     itsevoting0009.xaas.epfl.ch:
       DELA_NODES:
@@ -65,6 +60,13 @@ dela_nodes:
           http_host: "evdemo3.fsd.team"
           http_port: "8080"
           node_host: "evdemo3n.fsd.team"
+          node_port: "2000"
+    itsevoting0011.xaas.epfl.ch:
+      DELA_NODES:
+        - name: "evdemo4"
+          http_host: "evdemo4.fsd.team"
+          http_port: "8080"
+          node_host: "evdemo4n.fsd.team"
           node_port: "2000"
   vars:
     MASTER_WORKER:

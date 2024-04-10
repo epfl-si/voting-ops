@@ -18,7 +18,7 @@
     state: started
     volumes:
       - "dvoting-database-data:/var/lib/postgresql/data"
-      - "/srv/dvoting/init.sql:/docker-entrypoint-initdb.d/init.sql"
+      - "{{ dvoting.basedir }}/init.sql:/docker-entrypoint-initdb.d/init.sql"
     networks:
       - name: traefik
 
@@ -40,6 +40,7 @@
       SESSION_SECRET: "{{ _secrets.dvoting_session_secret }}"
       PUBLIC_KEY: "{{ _secrets.PUBLIC_KEY }}"
       PRIVATE_KEY: "{{ _secrets.PRIVATE_KEY }}"
+      # REACT_APP_DEV_LOGIN: 'false'
       REACT_APP_DEV_LOGIN: "{{ 'false' if RUNENV == 'prod' else 'true' }}"
       REACT_APP_RANDOMIZE_VOTE_ID: "{{ 'false' if RUNENV == 'prod' else 'true' }}"
     networks:
