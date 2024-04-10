@@ -28,6 +28,8 @@
     hostname: "backend"
     container_default_behavior: no_defaults
     image: ghcr.io/c4dt/d-voting-backend:latest
+    volumes:
+      - "dvoting-backend-data:/data"
     env:
       DATABASE_USERNAME: "{{ _secrets.db_username }}"
       DATABASE_PASSWORD: "{{ _secrets.db_password }}"
