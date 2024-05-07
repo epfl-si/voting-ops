@@ -41,15 +41,22 @@ The installation in steps:
 ./votsible.sh --demo -t traefik
 
 ./votsible.sh --demo -t dela
-# either join using ansible docker run
-./votsible.sh --demo -t dela -t dela.join
-# or     join using bash scripts
+# join using bash scripts
+# (there a more ansible-style version -t dela.join but is less robust)
 ./votsible.sh --demo -t dela -t dela.manual_join
-# or     just run the scripts in /srv/dela_demo/init/ by hand on each machine
 
 ./votsible.sh --demo -t dvoting
 
 ./bin/fix_proxies.sh
+```
+
+The last command needs DEVLOGIN to be enabled. Therefire it will attempt to
+run the follwing command before (and after) adding the proxies:
+
+```bash
+RANDOMIZE=false DEVLOGIN=true  ./votsible.sh --demo -t dvoting.run
+# ... add proxies
+RANDOMIZE=false DEVLOGIN=false  ./votsible.sh --demo -t dvoting.run
 ```
 
 ### Dev login and vote randomizer
@@ -108,6 +115,18 @@ Traefik console for the web app should be visible [here](https://evtraefik.fsd.t
 ```
 
 
+## Misc utilities
+Get the list of all scipers of VPSI:
+```bash
+ldapsearch -x -h ldap.epfl.ch -b 'ou=vpo-si,o=epfl,c=ch'  organizationalStatus=Personnel uniqueIdentifier | awk '/^uniqueIdentifier/{print $2;}' | sort -u >  vpsi.txt
+truncate -s -1 vpsi.txt
+```
+
+Get the list of all scipers of students:
+```bash
+ldapsearch -x -h ldap.epfl.ch -b 'ou=etu,o=epfl,c=ch'  objectClass=person uniqueIdentifier | awk '/^uniqueIdentifier/{print $2;}' > students.txt
+truncate -s -1 students.txt
+```
 
 
 ## Notes

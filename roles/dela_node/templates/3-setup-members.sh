@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -x
 
 keysfile="{{ dela.init_dir }}/keys"
 if [ ! -f "$keysfile" ] ; then

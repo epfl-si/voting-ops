@@ -45,6 +45,8 @@
       tags:
         - dela
         - dela.config
+        - dela.join
+        - dela.manual_join
 
 - name: Include dela admin task
   tags:

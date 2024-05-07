@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -x
 
 idsfile="{{ dela.init_dir }}/ids"
 if [ ! -f "$idsfile" ] ; then
