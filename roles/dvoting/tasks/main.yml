@@ -14,6 +14,9 @@
   tags:
     - dvoting
     - dvoting.run
+    - dvoting.run.backend
+    - dvoting.run.frontend
+    - dvoting.run.db
   include_tasks:
     file: run.yml
     apply:

@@ -6,6 +6,8 @@
 
 
 - name: Run database server
+  tags:
+    - dvoting.run.db
   community.docker.docker_container:
     name: "postgres"
     hostname: "postgres"
@@ -23,6 +25,8 @@
       - name: traefik
 
 - name: Run backend web service
+  tags:
+    - dvoting.run.backend
   community.docker.docker_container:
     name: "backend"
     hostname: "backend"
@@ -45,9 +49,11 @@
       REACT_APP_DEV_LOGIN: "{{ dvoting.devlogin }}"
       REACT_APP_RANDOMIZE_VOTE_ID: "{{ dvoting.randomize_vote_id }}"
     networks:
-      - name: traefik
+      - name: traefik    
 
 - name: Run frontend web service
+  tags:
+    - dvoting.run.frontend
   community.docker.docker_container:
     name: "frontend"
     hostname: "frontend"
