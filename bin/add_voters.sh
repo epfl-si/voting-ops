@@ -43,3 +43,6 @@ scp $fpath $master:$rpath
 cat $fpath | ssh $master docker cp $rpath backend:/tmp/voters.txt
 ssh $master rm $rpath
 ssh $master docker exec backend npx cli addVoters --election-id $key --scipers-file /tmp/voters.txt
+echo "Reloading servers to void users cache"
+ssh $master docker restart backend
+ssh $master docker restart frontend
