@@ -55,3 +55,12 @@
   ansible.builtin.shell:
     cmd: docker volume ls -q | xargs docker volume rm
 
+
+# TODO: find a more comunity.docker style way of doing this!
+- name: "Remove all local directories =========================== !!!!"
+  tags:
+    - never
+    - yes_please_reset_docker_volumes_too
+  ansible.builtin.shell:
+    cmd: rm -rf /srv/dela* /srv/dvoting /srv/traefik
+

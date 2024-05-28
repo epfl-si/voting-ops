@@ -36,6 +36,9 @@ all:
     RUNENV: demo
     DOMAINS:
       - fsd.team
+      - epfl.ch
+    CERTS_SRC: /keybase/team/epfl_evoting/certs
+
 
 dela_nodes:
   hosts:
@@ -45,8 +48,8 @@ dela_nodes:
           http_host: "evdemo1.fsd.team"
           http_port: "8080"
           node_host: "evdemo1n.fsd.team"
-          node_port: "2000"
-      TRAEFIK_CONSOLE_HOSTNAME: evtraefik.fsd.team
+          node_port: "2000" 
+      TRAEFIK_CONSOLE_HOSTNAME: "evtraefik.fsd.team"
     itsevoting0009.xaas.epfl.ch:
       DELA_NODES:
         - name: "evdemo2"

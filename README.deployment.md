@@ -1,5 +1,7 @@
 # Set up DELA network
 
+These are the original deployment instruction from dela. 
+
 The instructions must be followed in this exact order, and they must be executed one after the other. It
 doesn't matter which node is picked as the initial leader node, but it must remain the same for these instructions.
 

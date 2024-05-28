@@ -47,7 +47,7 @@ The installation in steps:
 
 ./votsible.sh --demo -t dvoting
 
-./bin/fix_proxies.sh
+./bin/fix_proxies_demo.sh
 ```
 
 The last command needs DEVLOGIN to be enabled. Therefire it will attempt to
@@ -77,6 +77,59 @@ RANDOMIZE=false DEVLOGIN=false  ./votsible.sh --demo -t dvoting.run
 
 ### Debugging
 Traefik console for the web app should be visible [here](https://evtraefik.fsd.team/dashboard)__
+
+## Prod
+An ssl certificate valid for all hosts (nodes, proxies, frontend) is request to
+EPFL via https://rauth.epfl.ch/certReq/ using the cerificate signing requst
+generate by the `go.sh` script that can be found in the `certs` directory within
+the keybase secrets directory.
+
+TODO: We had to add a symlink to the directory containing the certs for 
+`fsd.team` to enable the traefik dashboard as well as the copresence of a demo 
+deployment in the same machine set as the prod because the current ansible
+scripts support a single config for the certificates. We should make each 
+run env have its own config file for certificates and add the option to specify
+a full directory for the certs instead of havint it relative to the base certs
+source dir.
+
+The following dns aliases are set:
+ * for the various frontend
+   - `voting2.epfl.ch` (`voting.epfl.ch` will be transferred later)
+   - `voting-test.epfl.ch`
+   - `voting-qualif.epfl.ch`
+ * for the various (possible) node proxies:
+   - `dvot03.epfl.ch`
+   - `dvot04.epfl.ch`
+   - `dvot05.epfl.ch`
+   - `dvot06.epfl.ch`
+   - `dvot08.epfl.ch`
+   - `dvot09.epfl.ch`
+   - `dvot10.epfl.ch`
+   - `dvot11.epfl.ch`
+ * for the various nodes proxies:
+   - `nvot03.epfl.ch`
+   - `nvot04.epfl.ch`
+   - `nvot05.epfl.ch`
+   - `nvot06.epfl.ch`
+   - `nvot08.epfl.ch`
+   - `nvot09.epfl.ch`
+   - `nvot10.epfl.ch`
+   - `nvot11.epfl.ch`
+The various `{dn}votNN` point to the corresponding `itsevoting00NN.xaas.epfl.ch`
+
+```bash
+# ./votsible.sh --prod -t reset -t reset_docker_yes_yes_please -t yes_please_reset_docker_volumes_too
+
+./votsible.sh --prod -t traefik
+
+./votsible.sh --prod -t dela
+./votsible.sh --prod -t dela -t dela.manual_join
+./votsible.sh --prod -t dvoting
+
+./bin/fix_proxies_prod.sh
+
+```
+
 
 ### Examples
 

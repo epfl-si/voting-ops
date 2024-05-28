@@ -29,4 +29,6 @@ dvoting:
   frontend_host: '{{ frontend_host | default("dvoting.epfl.ch") }}'
   frontend_url: 'https://{{ frontend_host | default("dvoting.epfl.ch") }}'
   randomize_vote_id: "{{ 'false' if RUNENV == 'prod' else lookup('ansible.builtin.env', 'RANDOMIZE', default='true') }}"
-  devlogin: "{{ 'false' if RUNENV == 'prod' else lookup('ansible.builtin.env', 'DEVLOGIN', default='true') }}"
+  devlogin: "{{ lookup('ansible.builtin.env', 'DEVLOGIN', default='false') if RUNENV == 'prod' else lookup('ansible.builtin.env', 'DEVLOGIN', default='true') }}"
+  bevol: "dvoting-{{ RUNENV }}-bedata"
+  dbvol: "dvoting-{{ RUNENV }}-dbdata"

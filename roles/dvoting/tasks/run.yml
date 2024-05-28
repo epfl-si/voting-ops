@@ -19,7 +19,7 @@
     restart_policy: 'unless-stopped'
     state: started
     volumes:
-      - "dvoting-database-data:/var/lib/postgresql/data"
+      - "{{ dvoting.dbvol }}:/var/lib/postgresql/data"
       - "{{ dvoting.basedir }}/init.sql:/docker-entrypoint-initdb.d/init.sql"
     networks:
       - name: traefik
@@ -33,7 +33,7 @@
     container_default_behavior: no_defaults
     image: ghcr.io/c4dt/d-voting-backend:latest
     volumes:
-      - "dvoting-backend-data:/data"
+      - "{{ dvoting.bevol }}:/data"
     env:
       DATABASE_USERNAME: "{{ _secrets.db_username }}"
       DATABASE_PASSWORD: "{{ _secrets.db_password }}"
