@@ -118,7 +118,10 @@ The following dns aliases are set:
 The various `{dn}votNN` point to the corresponding `itsevoting00NN.xaas.epfl.ch`
 
 ```bash
+# Destroy everything
 # ./votsible.sh --prod -t reset -t reset_docker_yes_yes_please -t yes_please_reset_docker_volumes_too
+# Or just clear data
+# RUNENV=prod ./bin/cleardata.sh
 
 ./votsible.sh --prod -t traefik
 

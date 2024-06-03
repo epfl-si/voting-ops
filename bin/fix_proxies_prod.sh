@@ -6,8 +6,8 @@ FRONT_END_URL=https://voting2.epfl.ch
 REACT_APP_SCIPER_ADMIN=121769
 
 # allow devlogin in order to enable the rest of the script
-# RANDOMIZE=false DEVLOGIN=true ./votsible.sh --prod -t dvoting.run.backend
-# sleep 10
+RANDOMIZE=false DEVLOGIN=true ./votsible.sh --prod -t dvoting.run.backend
+sleep 10
 
 curl -k "$FRONT_END_URL/api/get_dev_login/$REACT_APP_SCIPER_ADMIN" -c cookies.txt -o /dev/null -s
 for i in 08 09 10 11 ; do
@@ -16,5 +16,5 @@ for i in 08 09 10 11 ; do
 done
 
 rm cookies.txt
-# sleep 5
-# RANDOMIZE=false DEVLOGIN=false ./votsible.sh --prod -t dvoting.run.backend
+sleep 5
+RANDOMIZE=false DEVLOGIN=false ./votsible.sh --prod -t dvoting.run.backend
