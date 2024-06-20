@@ -10,7 +10,7 @@
     path: "{{ backup_dir }}/{{ DELA_NODES.name }}"
     state: directory
 
-- name: Copy datase from docker container to backup directory
+- name: Copy database from docker container to backup directory
   ansible.builtin.shell: docker cp dela-worker-{{ DELA_NODES.name }}:/data/node {{ backup_dir }}/{{ DELA_NODES.name }}
 
 - name: Copy database to local
