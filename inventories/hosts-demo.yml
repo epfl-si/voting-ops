@@ -1,37 +1,37 @@
 all:
   hosts:
-    # itsevoting0003.xaas.epfl.ch:
-    #   ansible_host: 10.95.96.145
-    #   ansible_port: 22
-    #   ansible_user: root
-    # itsevoting0004.xaas.epfl.ch:
-    #   ansible_host: 10.95.96.146
-    #   ansible_port: 22
-    #   ansible_user: root
-    # itsevoting0005.xaas.epfl.ch:
-    #   ansible_host: 10.95.96.147
-    #   ansible_port: 22
-    #   ansible_user: root
-    # itsevoting0006.xaas.epfl.ch:
-    #   ansible_host: 10.95.96.148
-    #   ansible_port: 22
-    #   ansible_user: root
-    itsevoting0008.xaas.epfl.ch:
-      ansible_host: 10.95.96.167
+    itsevoting0003.xaas.epfl.ch:
+      ansible_host: 10.95.96.145
       ansible_port: 22
       ansible_user: root
-    itsevoting0009.xaas.epfl.ch:
-      ansible_host: 10.95.96.166
+    itsevoting0004.xaas.epfl.ch:
+      ansible_host: 10.95.96.146
       ansible_port: 22
       ansible_user: root
-    itsevoting0010.xaas.epfl.ch:
-      ansible_host: 10.95.96.173
+    itsevoting0005.xaas.epfl.ch:
+      ansible_host: 10.95.96.147
       ansible_port: 22
       ansible_user: root
-    itsevoting0011.xaas.epfl.ch:
-      ansible_host: 10.95.96.174
+    itsevoting0006.xaas.epfl.ch:
+      ansible_host: 10.95.96.148
       ansible_port: 22
       ansible_user: root
+    # itsevoting0008.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.167
+    #   ansible_port: 22
+    #   ansible_user: root
+    # itsevoting0009.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.166
+    #   ansible_port: 22
+    #   ansible_user: root
+    # itsevoting0010.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.173
+    #   ansible_port: 22
+    #   ansible_user: root
+    # itsevoting0011.xaas.epfl.ch:
+    #   ansible_host: 10.95.96.174
+    #   ansible_port: 22
+    #   ansible_user: root
   vars:
     RUNENV: demo
     DOMAINS:
@@ -39,32 +39,31 @@ all:
       - epfl.ch
     CERTS_SRC: /keybase/team/epfl_evoting/certs
 
-
 dela_nodes:
   hosts:
-    itsevoting0008.xaas.epfl.ch:
+    itsevoting0003.xaas.epfl.ch:
       DELA_NODES:
         - name: "evdemo1"
           http_host: "evdemo1.fsd.team"
           http_port: "8080"
           node_host: "evdemo1n.fsd.team"
-          node_port: "2000" 
+          node_port: "2000"
       TRAEFIK_CONSOLE_HOSTNAME: "evtraefik.fsd.team"
-    itsevoting0009.xaas.epfl.ch:
+    itsevoting0004.xaas.epfl.ch:
       DELA_NODES:
         - name: "evdemo2"
           http_host: "evdemo2.fsd.team"
           http_port: "8080"
           node_host: "evdemo2n.fsd.team"
           node_port: "2000"
-    itsevoting0010.xaas.epfl.ch:
+    itsevoting0005.xaas.epfl.ch:
       DELA_NODES:
         - name: "evdemo3"
           http_host: "evdemo3.fsd.team"
           http_port: "8080"
           node_host: "evdemo3n.fsd.team"
           node_port: "2000"
-    itsevoting0011.xaas.epfl.ch:
+    itsevoting0006.xaas.epfl.ch:
       DELA_NODES:
         - name: "evdemo4"
           http_host: "evdemo4.fsd.team"
@@ -73,15 +72,15 @@ dela_nodes:
           node_port: "2000"
   vars:
     MASTER_WORKER:
-      host: itsevoting0008.xaas.epfl.ch
+      host: itsevoting0003.xaas.epfl.ch
       node: evdemo1
 
     DOCKER_TLS_HOSTNAME: localhost
 
 dvoting_web:
   hosts:
-    itsevoting0008.xaas.epfl.ch:
-      
+    itsevoting0003.xaas.epfl.ch:
+
   vars:
     frontend_host: "dvoting.fsd.team"
     # TODO: find a way to get these two from MASTER_WORKER + nodes
