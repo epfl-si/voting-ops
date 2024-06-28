@@ -38,25 +38,24 @@ The installation in steps:
  5. configure the proxy address (used by the browser to contact the nodes)
 
 ```bash
+# Destroy everything
+# ./votsible.sh --demo -t reset -t reset_docker_yes_yes_please -t yes_please_reset_docker_volumes_too
+# Or just clear data
+# RUNENV=demo ./bin/cleardata.sh
+
 ./votsible.sh --demo -t traefik
 
 ./votsible.sh --demo -t dela
-# join using bash scripts
-# (there a more ansible-style version -t dela.join but is less robust)
-./votsible.sh --demo -t dela -t dela.manual_join
 
+# check content of /srv/dela_demo/init/keys. If it contains error messages then
+# redo
+# ./votsible.sh --demo -t dela
+
+./votsible.sh --demo -t dela -t dela.manual_join
 ./votsible.sh --demo -t dvoting
 
 ./bin/fix_proxies_demo.sh
-```
 
-The last command needs DEVLOGIN to be enabled. Therefire it will attempt to
-run the follwing command before (and after) adding the proxies:
-
-```bash
-RANDOMIZE=false DEVLOGIN=true  ./votsible.sh --demo -t dvoting.run
-# ... add proxies
-RANDOMIZE=false DEVLOGIN=false  ./votsible.sh --demo -t dvoting.run
 ```
 
 ### Dev login and vote randomizer
@@ -132,30 +131,6 @@ The various `{dn}votNN` point to the corresponding `itsevoting00NN.xaas.epfl.ch`
 ./bin/fix_proxies_prod.sh
 
 ```
-
-of for demo:
-```bash
-# Destroy everything
-# ./votsible.sh --demo -t reset -t reset_docker_yes_yes_please -t yes_please_reset_docker_volumes_too
-# Or just clear data
-# RUNENV=demo ./bin/cleardata.sh
-
-./votsible.sh --demo -t traefik
-
-./votsible.sh --demo -t dela
-
-# check content of /srv/dela_demo/init/keys. If it contains error messages then
-# redo
-# ./votsible.sh --demo -t dela
-
-./votsible.sh --demo -t dela -t dela.manual_join
-./votsible.sh --demo -t dvoting
-
-./bin/fix_proxies_demo.sh
-
-```
-
-
 
 ### Examples
 
