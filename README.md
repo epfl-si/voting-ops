@@ -133,6 +133,29 @@ The various `{dn}votNN` point to the corresponding `itsevoting00NN.xaas.epfl.ch`
 
 ```
 
+of for demo:
+```bash
+# Destroy everything
+# ./votsible.sh --demo -t reset -t reset_docker_yes_yes_please -t yes_please_reset_docker_volumes_too
+# Or just clear data
+# RUNENV=demo ./bin/cleardata.sh
+
+./votsible.sh --demo -t traefik
+
+./votsible.sh --demo -t dela
+
+# check content of /srv/dela_demo/init/keys. If it contains error messages then
+# redo
+# ./votsible.sh --demo -t dela
+
+./votsible.sh --demo -t dela -t dela.manual_join
+./votsible.sh --demo -t dvoting
+
+./bin/fix_proxies_demo.sh
+
+```
+
+
 
 ### Examples
 
