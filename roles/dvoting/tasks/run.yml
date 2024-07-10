@@ -63,6 +63,7 @@
       FRONT_END_URL: "{{ dvoting.frontend_url }}"
       BACKEND_HOST: "backend"
       BACKEND_PORT: "5000"
+      REACT_APP_BLOCKLIST: "{{ hidden_forms | join(',') }}"
     labels:
       traefik.http.services.dvoting_frontend.loadbalancer.server.port: "3000"
       traefik.http.routers.dvoting_frontend.rule: Host("{{ dvoting.frontend_host }}")

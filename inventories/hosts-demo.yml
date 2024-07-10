@@ -86,3 +86,5 @@ dvoting_web:
     # TODO: find a way to get these two from MASTER_WORKER + nodes
     dela_proxy_url: "https://evdemo1.fsd.team"
     dela_node_url: "https://evdemo1n.fsd.team"
+    hidden_forms:
+      - 761b292ade7a4f23840fd589dd882da30a5852c6bb80d2dbd9cf7ae42a254b83

@@ -86,3 +86,7 @@ dvoting_web:
     # TODO: find a way to get these two from MASTER_WORKER + nodes
     dela_proxy_url: "https://dvot08.epfl.ch"
     dela_node_url: "https://nvot08.epfl.ch"
+    hidden_forms:
+      - 7d9ad8d86a5950ea9a17571f0a43e687e838856f77ae13b5115f4897cf21637c
+      - 74a824882dd9b8f152c635495787599b01cc992bd31e78446afc957bdbaf585a
+
