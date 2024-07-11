@@ -10,7 +10,7 @@ INSTALL_DIR: /home/ubuntu
 
 dela:
   public_key: '{{ _secrets.dela_public_key | default("7a97bfc968c74fbf0553fdec1a97d8265bd3a32e31edd61e296ea701a009147e") }}'
-  worker_image: '{{ DELA_IMAGE_URL | default("ghcr.io/c4dt/d-voting-dela:latest") }}'
+  worker_image: 'ghcr.io/c4dt/d-voting-dela:{{ worker_image_tag | default("latest") }}'
   worker_hostname: '{{ DELA_WORKER_HOSTNAME | default(inventory_hostname) }}'
   join_address: '{{ _secrets.dela_join_address }}'
   join_token: '{{ _secrets.dela_join_token }}'
@@ -28,6 +28,8 @@ dvoting:
   admin_scipers: '{{ _secrets.voting_admin_scipers }}'
   frontend_host: '{{ frontend_host | default("dvoting.epfl.ch") }}'
   frontend_url: 'https://{{ frontend_host | default("dvoting.epfl.ch") }}'
+  frontend_image: 'ghcr.io/c4dt/d-voting-frontend:{{ frontend_image_tag | default("latest") }}'
+  backend_image: 'ghcr.io/c4dt/d-voting-backend:{{ backend_image_tag | default("latest") }}'
   randomize_vote_id: "{{ 'false' if RUNENV == 'prod' else lookup('ansible.builtin.env', 'RANDOMIZE', default='true') }}"
   devlogin: "{{ lookup('ansible.builtin.env', 'DEVLOGIN', default='false') if RUNENV == 'prod' else lookup('ansible.builtin.env', 'DEVLOGIN', default='true') }}"
   bevol: "dvoting-{{ RUNENV }}-bedata"

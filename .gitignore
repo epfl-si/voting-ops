@@ -1,6 +1,7 @@
 giova.md
 /data
 /kb
+/backup
 /ansible-deps-cache
 /dela-scripts
 files/vendor/memcoin*

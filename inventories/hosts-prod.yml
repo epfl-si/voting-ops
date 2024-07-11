@@ -71,6 +71,7 @@ dela_nodes:
           node_host: "nvot11.epfl.ch"
           node_port: "2000"
   vars:
+    worker_image_tag: latest
     MASTER_WORKER:
       host: itsevoting0008.xaas.epfl.ch
       node: evprod1
@@ -82,6 +83,8 @@ dvoting_web:
     itsevoting0008.xaas.epfl.ch:
       
   vars:
+    frontend_image_tag: latest
+    backend_image_tag: latest
     frontend_host: "voting2.epfl.ch"
     # TODO: find a way to get these two from MASTER_WORKER + nodes
     dela_proxy_url: "https://dvot08.epfl.ch"
@@ -89,4 +92,9 @@ dvoting_web:
     hidden_forms:
       - 7d9ad8d86a5950ea9a17571f0a43e687e838856f77ae13b5115f4897cf21637c
       - 74a824882dd9b8f152c635495787599b01cc992bd31e78446afc957bdbaf585a
-
+      - b6ba956b82a076ebbfee477ed34d2eb8afebbfb782ec3dd35ced7bb741cd9f3c
+      - 720d1b7d0b43bc0f1d961c58c2fc9e20fe037e9afe06c7a8e48c46aad44c7893
+      - eea2fd8660a5248e860fa6cdb7c5b1041ca6d4958c4930834f02a0fc22074802
+      - 2796178b19db16eb0d8892e44aa99edce98c57ed824b627650bbcfafb7b19867
+      - 5aa99366f24570e6b9d58067b90e596a103a727eb9caa1bf1bd68aca0d666a85
+      

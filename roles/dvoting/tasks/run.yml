@@ -31,7 +31,7 @@
     name: "backend"
     hostname: "backend"
     container_default_behavior: no_defaults
-    image: ghcr.io/c4dt/d-voting-backend:latest
+    image: "{{ dvoting.backend_image }}"
     volumes:
       - "{{ dvoting.bevol }}:/data"
     env:
@@ -58,7 +58,7 @@
     name: "frontend"
     hostname: "frontend"
     container_default_behavior: no_defaults
-    image: ghcr.io/c4dt/d-voting-frontend:latest
+    image: "{{ dvoting.frontend_image }}"
     env:
       FRONT_END_URL: "{{ dvoting.frontend_url }}"
       BACKEND_HOST: "backend"
