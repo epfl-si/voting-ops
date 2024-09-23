@@ -183,6 +183,39 @@ truncate -s -1 students.txt
 ```
 
 
+## Certificates
+
+### epfl.ch
+For generating the certificates for epfl.ch see `certs/generated` directory
+in the project's keybase folder. 
+
+Essentially, a certicate signing request has to be generated with
+
+```
+openssl req -new -nodes -config cert-req.cnf -keyout privkey.pem -out voting_cert_request.csr
+```
+
+Then its content is to be copied in the [form here](https://rauth.epfl.ch/certReq/) where
+also the email (dvoting-ops@groupes.epfl.ch) of the group has to be entered.
+
+Within few minutes the certificate is delivered by e-mail. There will be a zip file
+containing a directory named `voting2_epfl_ch_XXXXXXXXX`. Within the directory:
+
+```
+cat {voting2_epfl_ch.crt,DigiCertCA.crt,TrustedRoot.crt} > fullchain.pem 
+```
+
+Then copy the `fullchain.pem` and `privkey.pem` into the `epfl.ch`  directory
+where ansible will go looking for the certificates.
+
+More infos on the EPFL page dedicated to 
+[certificate generation](https://inside.epfl.ch/secure-it/apache-creer-une-csr/).
+epfl_evoti
+
+### fsd.team
+TODO
+
+
 ## Notes
 
 ### Git tags
