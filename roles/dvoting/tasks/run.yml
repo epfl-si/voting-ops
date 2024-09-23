@@ -69,6 +69,13 @@
       traefik.http.routers.dvoting_frontend.rule: Host("{{ dvoting.frontend_host }}")
       traefik.http.routers.dvoting_frontend.service: dvoting_frontend
       traefik.http.routers.dvoting_frontend.tls: "true"
+
+      traefik.http.routers.dvoting_frontend_redirect.rule: Host("voting2.epfl.ch")
+      traefik.http.routers.dvoting_frontend_redirect.middlewares: votredir
+      traefik.http.middlewares.votredir.redirectregex.regex: ^https://voting2.epfl.ch/(.*)
+      traefik.http.middlewares.votredir.redirectregex.replacement: "https://{{ dvoting.frontend_host }}"
+
+
     networks:
       - name: traefik
       # - name: default
