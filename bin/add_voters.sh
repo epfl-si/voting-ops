@@ -19,7 +19,7 @@ __HELP_MSG
 
 
 
-master=evot8
+master=itsevoting0008
 restart=no
 
 while [ "$#" -gt 0 ]; do
