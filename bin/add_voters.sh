@@ -48,8 +48,12 @@ done
 [ -f $fpath ] || help_and_exit "File $fpath not found"
 
 rpath=$(ssh $master /usr/bin/mktemp)
-scp $fpath $master:$rpath
-cat $fpath | ssh $master docker cp $rpath backend:/tmp/voters.txt
+tpath=$(mktemp)
+
+cat $fpath | awk 'BEGIN{r="";}/^#/{next;}{sciper=$1; printf("%s%s", r, sciper); r="\n";}' > $tpath
+scp $tpath $master:$rpath
+rm $tpath
+ssh $master docker cp $rpath backend:/tmp/voters.txt
 ssh $master rm $rpath
 ssh $master docker exec backend npx cli addVoters --election-id $key --scipers-file /tmp/voters.txt
 
