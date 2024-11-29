@@ -1,0 +1,9 @@
+---
+- name: Extract database from docker volumes
+  include_tasks:
+    file: extract-databases.yml
+    apply:
+      tags:
+        - utils.extract_databases
+  tags:
+    - utils.extract_databases

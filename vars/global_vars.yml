@@ -34,3 +34,5 @@ dvoting:
   devlogin: "{{ lookup('ansible.builtin.env', 'DEVLOGIN', default='false') if RUNENV == 'prod' else lookup('ansible.builtin.env', 'DEVLOGIN', default='true') }}"
   bevol: "dvoting-{{ RUNENV }}-bedata"
   dbvol: "dvoting-{{ RUNENV }}-dbdata"
+
+backup_dir: "/srv/backup"
