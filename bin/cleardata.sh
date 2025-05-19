@@ -18,6 +18,8 @@ if [ "$runenv" == "prod" ]; then
 	ssh evot8  docker run -v dvoting-${runenv}-dbdata:/data busybox rm -rf /data/*
 
 	ssh evot8  sudo rm -f /srv/dela_${runenv}/init/ids /srv/dela_${runenv}/init/keys
+
+
 elif [ "$runenv" == "demo" ] ; then
 	ssh evot3  docker stop dela-worker-ev${runenv}1 backend frontend postgres
 	ssh evot4  docker stop dela-worker-ev${runenv}2
@@ -32,3 +34,7 @@ elif [ "$runenv" == "demo" ] ; then
 	ssh evot3 docker run -v dvoting-${runenv}-dbdata:/data busybox rm -rf /data/*
 	ssh evot3 sudo rm -f /srv/dela_${runenv}/init/ids /srv/dela_${runenv}/init/keys
 fi
+
+echo "Data cleared. Remember to"
+echo "./votsible.sh --${runenv} -t dela.run"
+echo "./votsible.sh --${runenv} -t dvoting.run"
