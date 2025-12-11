@@ -60,5 +60,7 @@ ssh $master docker exec backend npx cli addVoters --election-id $key --scipers-f
 if [ "$restart" == "yes" ]; then
   echo "Reloading servers to void users cache"
   ssh $master docker restart backend
-  ssh $master docker restart frontend
+  # ssh $master docker restart frontend
+else
+  echo "Remember to restart the backend!!  ssh evot8 docker restart backend"
 fi

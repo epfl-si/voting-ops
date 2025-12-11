@@ -2,7 +2,7 @@
 set -x
 set -e
 
-FRONT_END_URL=https://voting2.epfl.ch
+FRONT_END_URL=https://voting.epfl.ch
 REACT_APP_SCIPER_ADMIN=121769
 
 # allow devlogin in order to enable the rest of the script

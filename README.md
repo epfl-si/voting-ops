@@ -42,6 +42,9 @@ The installation in steps:
 # ./votsible.sh --demo -t reset -t reset_docker_yes_yes_please -t yes_please_reset_docker_volumes_too
 # Or just clear data
 # RUNENV=demo ./bin/cleardata.sh
+# The safest choice is destroy everything as it have been succesfully 
+# tested several times. The cleardata option used to work but the latest
+# attempts did not. 
 
 ./votsible.sh --demo -t traefik
 
@@ -119,9 +122,11 @@ The various `{dn}votNN` point to the corresponding `itsevoting00NN.xaas.epfl.ch`
 ```bash
 # Destroy everything
 # ./votsible.sh --prod -t reset -t reset_docker_yes_yes_please -t yes_please_reset_docker_volumes_too
-# Or just clear data
+# Or just clear data 
 # RUNENV=prod ./bin/cleardata.sh
-
+# The safest choice is destroy everything as it have been succesfully 
+# tested several times. The cleardata option used to work but the latest
+# attempts did not. 
 ./votsible.sh --prod -t traefik
 
 ./votsible.sh --prod -t dela
