@@ -28,10 +28,12 @@
   tags:
     - dvoting.run.backend
   community.docker.docker_container:
+    # entrypoint: ["tail", "-f", "/dev/null"]
     name: "backend"
     hostname: "backend"
     container_default_behavior: no_defaults
     image: "{{ dvoting.backend_image }}"
+    image_name_mismatch: recreate
     volumes:
       - "{{ dvoting.bevol }}:/data"
     env:
@@ -40,6 +42,7 @@
       DATABASE_HOST: "postgres"
       DATABASE_PORT: "5432"
       DB_PATH: "/data/dvoting"
+      # PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       FRONT_END_URL: "{{ dvoting.frontend_url }}"
       DELA_NODE_URL: "{{ dela_node_url }}"
       DELA_PROXY_URL: "{{ dela_proxy_url }}"
@@ -48,8 +51,14 @@
       PRIVATE_KEY: "{{ _secrets.PRIVATE_KEY }}"
       REACT_APP_DEV_LOGIN: "{{ dvoting.devlogin }}"
       REACT_APP_RANDOMIZE_VOTE_ID: "{{ dvoting.randomize_vote_id }}"
+
+      MS_ENTRA_TENANT_ID: "{{ _secrets.entraid_tenant }}"
+      MS_ENTRA_CLIENT_ID: "{{ _secrets.entraid_client }}"
+      MS_ENTRA_CLIENT_SECRET: "{{ _secrets.entraid_secret_value }}"
+      MS_ENTRA_REDIRECT_URI: "{{ dvoting.frontend_url }}/api/auth-response"
+
     networks:
-      - name: traefik    
+      - name: traefik
 
 - name: Run frontend web service
   tags:
@@ -59,6 +68,7 @@
     hostname: "frontend"
     container_default_behavior: no_defaults
     image: "{{ dvoting.frontend_image }}"
+    image_name_mismatch: recreate
     env:
       FRONT_END_URL: "{{ dvoting.frontend_url }}"
       BACKEND_HOST: "backend"
@@ -79,4 +89,3 @@
     networks:
       - name: traefik
       # - name: default
-

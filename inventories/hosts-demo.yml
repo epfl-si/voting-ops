@@ -37,7 +37,7 @@ all:
     DOMAINS:
       - fsd.team
       - epfl.ch
-    CERTS_SRC: /keybase/team/epfl_evoting/certs
+    CERTS_SRC: "{{ keybase_path }}/certs"
 
 dela_nodes:
   hosts:
@@ -83,8 +83,8 @@ dvoting_web:
     itsevoting0003.xaas.epfl.ch:
 
   vars:
-    frontend_image_tag: latest
-    backend_image_tag: latest
+    frontend_image_tag: 203
+    backend_image_tag: 203
     frontend_host: "dvoting.fsd.team"
     # TODO: find a way to get these two from MASTER_WORKER + nodes
     dela_proxy_url: "https://evdemo1.fsd.team"
