@@ -36,3 +36,12 @@
       role: roles/dvoting
     - name: ensure traefik container
       role: roles/traefik
+
+- name: Utilities for managing dela_nodes
+  hosts: dela_nodes
+  roles:
+    - name: utilities for dela_nodes
+      role: roles/utils
+  tags:
+    - never
+    - utils.extract_databases
