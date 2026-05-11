@@ -71,7 +71,7 @@ dela_nodes:
           node_host: "evdemo4n.fsd.team"
           node_port: "2000"
   vars:
-    worker_image_tag: latest
+    worker_image_tag: v3.0.0
     MASTER_WORKER:
       host: itsevoting0003.xaas.epfl.ch
       node: evdemo1
@@ -83,8 +83,8 @@ dvoting_web:
     itsevoting0003.xaas.epfl.ch:
 
   vars:
-    frontend_image_tag: 203
-    backend_image_tag: 203
+    frontend_image_tag: v3.0.0
+    backend_image_tag: v3.0.0
     frontend_host: "dvoting.fsd.team"
     # TODO: find a way to get these two from MASTER_WORKER + nodes
     dela_proxy_url: "https://evdemo1.fsd.team"
