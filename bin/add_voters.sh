@@ -37,7 +37,7 @@ while [ "$#" -gt 0 ]; do
         ;;
     -r) restart="yes"
         ;;
-    *)  help_and_exit "unrecognized option $1" 
+    *)  help_and_exit "unrecognized option $1"
 		    ;;
     esac
 		shift

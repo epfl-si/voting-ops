@@ -38,7 +38,7 @@ mode=ansible-playbook
 playbook_flags="-e @vars/global_vars.yml"
 ansible_flags="-e @vars/global_vars.yml"
 inventory_mode="test"
-keybase_path="/keybase/team/epfl_evoting"
+keybase_path="${KEYBASE:-/keybase}"
 dela_version="0.4.4"
 
 declare -a ansible_args
@@ -47,28 +47,28 @@ while [ "$#" -gt 0 ]; do
         --help) help_and_exit ;;
         -m) mode=ansible
             ansible_args+=("-m")
-            shift 
+            shift
             ;;
-        --prod) 
+        --prod)
             inventory_mode="prod"
             dela_version="0.4.5-alpha"
-            shift 
+            shift
             ;;
         --qual)
             inventory_mode="qual"
-            shift 
+            shift
             ;;
         --test)
             inventory_mode="test"
-            shift 
+            shift
             ;;
         --demo)
             inventory_mode="demo"
-            shift 
+            shift
             ;;
         --dev|--local)
             inventory_mode="dev"
-            shift 
+            shift
             ;;
         -g|--galaxy) mode=galaxy
             shift
@@ -106,7 +106,7 @@ case "$mode" in
         ansible-playbook $playbook_flags -i $inventory \
                         "${ansible_args[@]}" \
                         -e "inventory_mode=$inventory_mode" \
-                        -e "keybase_path='$keybase_path'" \
+                        -e "keybase_path='$keybase_path/team/epfl_evoting'" \
                         -e "dela_version='$dela_version'" \
                         -e "dela_version_underscore='$dela_version_underscore'" \
                         $playbook
@@ -118,4 +118,3 @@ case "$mode" in
         ansible-galaxy "${ansible_args[@]}"
         ;;
 esac
-
