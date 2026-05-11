@@ -43,8 +43,8 @@ The installation in steps:
 # Or just clear data
 # RUNENV=demo ./bin/cleardata.sh
 # The safest choice is destroy everything as it have been succesfully 
-# tested several times. The cleardata option used to work but the latest
-# attempts did not. 
+# tested several times. 
+# On the other hand, the cleardata option is less brutal and seems to work too.
 
 ./votsible.sh --demo -t traefik
 
@@ -125,8 +125,8 @@ The various `{dn}votNN` point to the corresponding `itsevoting00NN.xaas.epfl.ch`
 # Or just clear data 
 # RUNENV=prod ./bin/cleardata.sh
 # The safest choice is destroy everything as it have been succesfully 
-# tested several times. The cleardata option used to work but the latest
-# attempts did not. 
+# tested several times.
+# On the other hand, the cleardata option is less brutal and seems to work too.
 ./votsible.sh --prod -t traefik
 
 ./votsible.sh --prod -t dela
