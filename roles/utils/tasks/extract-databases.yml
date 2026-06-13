@@ -1,0 +1,25 @@
+# Ensure to have a 'backup/nodes_data' directory in your localhost beside 'evotsible.sh'
+
+- name: Remove previous backup directory
+  ansible.builtin.file:
+    path: "{{ backup_dir }}/{{ DELA_NODES.name }}"
+    state: absent
+
+- name: Create a backup directory
+  ansible.builtin.file:
+    path: "{{ backup_dir }}/{{ DELA_NODES.name }}"
+    state: directory
+
+- name: Copy database from docker container to backup directory
+  ansible.builtin.shell: docker cp dela-worker-{{ DELA_NODES.name }}:/data/node {{ backup_dir }}/{{ DELA_NODES.name }}
+
+- name: Copy database to local
+  ansible.builtin.fetch:
+    src: "{{ backup_dir }}/{{ DELA_NODES.name }}"
+    dest: "./backup/nodes_data/{{ DELA_NODES.name }}"
+
+- name: Compress backup directory
+  community.general.archive:
+    path: "./backup/nodes_data"
+    dest: "./backup/nodes_data.tgz"
+  when: inventory_hostname == ansible_play_hosts_all[-1]  
