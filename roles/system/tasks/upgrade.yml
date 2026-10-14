@@ -1,0 +1,15 @@
+- name: "Upgrade system packages"
+  tags:
+    - never
+    - system.upgrade
+  ansible.builtin.shell: |
+    apt update
+    apt upgrade -y
+    apt dist-upgrade -y
+    apt autoremove -y
+
+# For an upgrade of LTS version which requires answering to interactive prompts):
+# apt install -y update-manager-core
+# sed -i 's/^Prompt=.*/Prompt=lts/' /etc/update-manager/release-upgrades
+# do-release-upgrade
+# lsb_release -a

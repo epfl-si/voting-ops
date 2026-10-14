@@ -33,6 +33,17 @@
         - system
         - system.install
 
+- name: Upgrade system
+  tags:
+    - never
+    - system.upgrade
+  include_tasks:
+    file: upgrade.yml
+    apply:
+      tags:
+        - never
+        - system.upgrade
+
 - name: Reset system
   tags:
     - never
@@ -43,4 +54,3 @@
       tags:
         - never
         - reset
-
